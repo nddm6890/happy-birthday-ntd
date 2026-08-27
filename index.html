@@ -564,22 +564,18 @@
 
         /* Flap (3D Flip Top) */
         .envelope-flap-3d {
- 		    position: absolute;
- 		    top: 0; 
- 		    left: 0;
-			width: 0; 
-  		    height: 0;
-  		    border-left: 160px solid transparent;
-  		    border-right: 160px solid transparent;
-  		    border-top: 120px solid #D8C2AF; /* Giữ nguyên hình tam giác trỏ xuống */
- 		    transform-origin: top center;
-  			transform-style: preserve-3d;
-   		    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* CHỈNH SỬA TẠI ĐÂY: */
-  			z-index: 0 !important; /* Đặt z-index thấp nhất */
-  			transform: translateZ(-10px); /* Đẩy lùi hẳn ra sau cùng trong không gian 3D */
-		}
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #D8C2AF;
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+			transform: translateZ
+        }
         .envelope-3d-wrapper.open .envelope-flap-3d {
             transform: rotateX(180deg);
             z-index: 1;
