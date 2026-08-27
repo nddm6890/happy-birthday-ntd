@@ -14,7 +14,6 @@
            1. RESET & CSS VARIABLES (PINK PALETTE)
            ========================================== */
         :root {
-            /* Pink Palette: Soft, Dusty, Elegant, Creamy */
             --bg-base: #FDF6F0;
             --pink-soft: #F8E8EE;
             --pink-blush: #F2D7D9;
@@ -73,6 +72,12 @@
             box-shadow: inset 0 0 120px rgba(88, 24, 37, 0.12);
             pointer-events: none;
             z-index: 3;
+            transition: background 0.8s ease, backdrop-filter 0.8s ease;
+        }
+
+        .vignette.dimmed {
+            background: rgba(30, 18, 20, 0.45);
+            backdrop-filter: blur(5px);
         }
 
         /* Audio Toggle Button (Fixed UI) */
@@ -244,13 +249,17 @@
             cursor: grab;
             z-index: 1;
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transition: opacity 1.5s ease, filter 0.8s ease;
             background: var(--bg-base);
             touch-action: none;
         }
 
         #memory-space.active {
             opacity: 1;
+        }
+
+        #memory-space.blurred {
+            filter: blur(6px) brightness(0.85);
         }
 
         #memory-space:active {
@@ -354,7 +363,7 @@
             transform: scale(1.05);
         }
 
-        /* Fixed UI: Floating Envelope Button */
+        /* Fixed UI: Floating Envelope Button & Badge */
         .floating-letter-btn {
             position: fixed;
             bottom: 36px;
@@ -370,8 +379,12 @@
             cursor: pointer;
             z-index: 50;
             border: 1px solid var(--pink-dusty);
-            animation: floatSlow 4s ease-in-out infinite;
+            animation: floatSlow 4s ease-in-out infinite, letterShake 3s ease-in-out infinite;
             transition: var(--transition-smooth);
+        }
+
+        .floating-letter-btn.no-shake {
+            animation: floatSlow 4s ease-in-out infinite !important;
         }
 
         .floating-letter-btn:hover {
@@ -379,11 +392,54 @@
             background: #FFFFFF;
         }
 
+        .floating-letter-btn .icon-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .floating-letter-btn .icon {
             font-size: 1.4rem;
         }
 
-        .floating-letter-btn span {
+        .badge-count {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: var(--color-burgundy);
+            color: #FFF;
+            font-size: 0.65rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #FFF;
+            animation: badgePulse 2s infinite;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .badge-count.hidden {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes letterShake {
+            0%, 85%, 100% { transform: rotate(0deg); }
+            88% { transform: rotate(-8deg); }
+            91% { transform: rotate(8deg); }
+            94% { transform: rotate(-5deg); }
+            97% { transform: rotate(5deg); }
+        }
+
+        .floating-letter-btn span.btn-text {
             font-family: var(--font-serif);
             font-size: 0.95rem;
             color: var(--color-burgundy);
@@ -391,8 +447,8 @@
         }
 
         @keyframes floatSlow {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(1deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .drag-hint {
@@ -463,13 +519,11 @@
         }
 
         /* ==========================================
-           4. LETTER & ENVELOPE MODAL
+           4. REALISTIC 3D ENVELOPE & LETTER ANIMATION
            ========================================== */
         .letter-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(30, 18, 20, 0.7);
-            backdrop-filter: blur(12px);
             z-index: 150;
             display: flex;
             align-items: center;
@@ -477,6 +531,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
+            perspective: 1200px;
         }
 
         .letter-modal.active {
@@ -484,40 +539,50 @@
             pointer-events: auto;
         }
 
-        .envelope-wrapper {
+        /* 3D Envelope Container */
+        .envelope-3d-wrapper {
             position: relative;
             width: 320px;
             height: 220px;
-            background: #E8D5C4;
+            background: #E6D2C1;
             border-radius: 8px;
-            box-shadow: var(--shadow-deep);
-            cursor: pointer;
-            transition: transform 0.6s ease;
+            box-shadow: 0 20px 40px rgba(60, 42, 33, 0.25);
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+            will-change: transform, opacity;
         }
 
-        .envelope-wrapper.opening {
-            transform: translateY(120px) scale(0.9);
-            pointer-events: none;
+        .envelope-3d-wrapper.center-anim {
+            animation: envelopeCenterIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        .envelope-flap {
+        @keyframes envelopeCenterIn {
+            0% { transform: scale(0.8) translateY(50px) rotate(-3deg); }
+            50% { transform: scale(1.05) translateY(-10px) rotate(1deg); }
+            100% { transform: scale(1) translateY(0) rotate(0deg); }
+        }
+
+        /* Flap (3D Flip Top) */
+        .envelope-flap-3d {
             position: absolute;
             top: 0; left: 0;
             width: 0; height: 0;
             border-left: 160px solid transparent;
             border-right: 160px solid transparent;
             border-top: 120px solid #D8C2AF;
-            transform-origin: top;
-            transition: transform 0.5s ease 0.2s, z-index 0.2s ease 0.2s;
-            z-index: 4;
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
         }
 
-        .envelope-wrapper.open .envelope-flap {
+        .envelope-3d-wrapper.open .envelope-flap-3d {
             transform: rotateX(180deg);
             z-index: 1;
         }
 
-        .envelope-pocket {
+        /* Pocket Layers */
+        .envelope-pocket-3d {
             position: absolute;
             bottom: 0; left: 0;
             width: 0; height: 0;
@@ -525,78 +590,123 @@
             border-right: 160px solid #E2D0BF;
             border-bottom: 110px solid #D0BCA8;
             border-radius: 0 0 8px 8px;
-            z-index: 3;
+            z-index: 4;
+            pointer-events: none;
         }
 
-        .paper-sheet {
+        .envelope-back-3d {
             position: absolute;
-            top: 10px; left: 15px;
-            width: 290px; height: 190px;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #D5C0AD;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        /* 3D Paper Inside Envelope */
+        .paper-3d-slide {
+            position: absolute;
+            top: 12px; left: 16px;
+            width: 288px; height: 196px;
             background: #FDFBF7;
-            border-radius: 4px;
-            padding: 24px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(221, 168, 179, 0.3);
+            z-index: 3;
+            transform-origin: bottom center;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            will-change: transform;
         }
 
-        .envelope-wrapper.open .paper-sheet {
-            transform: translateY(-160px);
+        /* Envelope paper slide out animation steps */
+        .envelope-3d-wrapper.paper-out .paper-3d-slide {
+            transform: translateY(-170px) scale(1.02);
+            z-index: 6;
         }
 
+        .envelope-3d-wrapper.paper-expand .paper-3d-slide {
+            transform: translateY(-200px) scale(1.15) rotate(-1deg);
+            opacity: 0;
+        }
+
+        .envelope-3d-wrapper.fade-out {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            pointer-events: none;
+        }
+
+        /* Full Interactive Paper Sheet */
         .full-paper {
             position: fixed;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.85);
+            transform: translate(-50%, -45%) scale(0.85);
             width: 90%;
-            max-width: 520px;
-            max-height: 82vh;
+            max-width: 540px;
+            max-height: 84vh;
             background: #FDFBF7;
-            padding: 40px 36px;
+            background-image: radial-gradient(#F2D7D9 0.5px, transparent 0.5px);
+            background-size: 16px 16px;
+            padding: 44px 38px;
             border-radius: 12px;
-            box-shadow: var(--shadow-deep);
+            box-shadow: 0 25px 60px rgba(60, 42, 33, 0.25), 0 0 0 1px rgba(221, 168, 179, 0.3);
             z-index: 160;
             opacity: 0;
             pointer-events: none;
             overflow-y: auto;
-            border: 1px solid var(--pink-blush);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
         }
 
         .full-paper.active {
             opacity: 1;
             pointer-events: auto;
-            transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1) rotate(-0.5deg);
         }
 
         .paper-title {
             font-family: var(--font-handwriting);
-            font-size: 2.3rem;
+            font-size: 2.4rem;
             color: var(--color-burgundy);
             margin-bottom: 20px;
             text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
         }
 
         .paper-body {
             font-family: var(--font-serif);
             font-size: 1.05rem;
-            line-height: 1.8;
+            line-height: 1.85;
             color: var(--color-primary);
             white-space: pre-line;
             margin-bottom: 28px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
         }
 
         .paper-signature {
             font-family: var(--font-handwriting);
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             text-align: right;
             color: var(--pink-rose);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+        }
+
+        .full-paper.active .paper-title,
+        .full-paper.active .paper-body,
+        .full-paper.active .paper-signature {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .btn-open-gift {
             display: block;
             margin: 32px auto 0 auto;
-            padding: 14px 30px;
+            padding: 14px 32px;
             background: var(--color-burgundy);
             color: #FFF;
             border: none;
@@ -606,11 +716,19 @@
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(88, 24, 37, 0.25);
             transition: var(--transition-smooth);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease 0.8s, transform 0.6s ease 0.8s, background 0.3s ease;
+        }
+
+        .full-paper.active .btn-open-gift {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .btn-open-gift:hover {
             background: #3F101A;
-            transform: scale(1.04);
+            transform: translateY(-2px) scale(1.04);
         }
 
         /* ==========================================
@@ -763,11 +881,14 @@
             .polaroid { width: 190px; padding: 8px 8px 14px 8px; }
             .polaroid-img-wrapper { height: 170px; }
             .polaroid-title { font-size: 1.1rem; }
-            .full-paper { padding: 28px 20px; }
-            .paper-title { font-size: 1.8rem; }
+            .full-paper { padding: 32px 22px; }
+            .paper-title { font-size: 1.9rem; }
             .paper-body { font-size: 0.95rem; }
             .floating-letter-btn { bottom: 20px; right: 20px; padding: 10px 18px; }
             .drag-hint { bottom: 20px; left: 20px; font-size: 0.75rem; }
+            .envelope-3d-wrapper { width: 280px; height: 190px; }
+            .envelope-flap-3d, .envelope-pocket-3d { border-left-width: 140px; border-right-width: 140px; }
+            .paper-3d-slide { width: 252px; height: 168px; }
         }
     </style>
 </head>
@@ -775,7 +896,7 @@
 
     <!-- Ambient Dust Particles -->
     <canvas id="particle-canvas"></canvas>
-    <div class="vignette"></div>
+    <div class="vignette" id="vignette-overlay"></div>
 
     <!-- Fixed Audio Toggle UI -->
     <button class="audio-toggle" id="audio-btn" aria-label="Toggle Sound">
@@ -819,19 +940,17 @@
         <div class="world-container" id="world-container">
             <!-- Parallax Background Pink Blobs & Shapes -->
             <div class="bg-layer-parallax" id="parallax-layer">
-                <!-- Decorative pink blobs -->
                 <div class="pink-blob" style="width: 700px; height: 700px; background: #F8E8EE; top: 300px; left: 400px;"></div>
                 <div class="pink-blob" style="width: 900px; height: 900px; background: #F2D7D9; top: 1200px; left: 1800px;"></div>
                 <div class="pink-blob" style="width: 600px; height: 600px; background: #DDA8B3; top: 800px; left: 2600px;"></div>
                 <div class="pink-blob" style="width: 800px; height: 800px; background: #F8E8EE; top: 1800px; left: 600px;"></div>
 
-                <!-- Soft translucent pink cards -->
                 <div class="pink-card-decor" style="width: 320px; height: 420px; top: 400px; left: 1100px; transform: rotate(-6deg);"></div>
                 <div class="pink-card-decor" style="width: 400px; height: 300px; top: 1500px; left: 1200px; transform: rotate(8deg);"></div>
                 <div class="pink-card-decor" style="width: 350px; height: 450px; top: 900px; left: 2000px; transform: rotate(-4deg);"></div>
             </div>
 
-            <!-- Photos rendered dynamically -->
+            <!-- Photos layer -->
             <div id="photos-layer"></div>
         </div>
 
@@ -839,8 +958,11 @@
         <div class="drag-hint">✨ Cuộn chuột để Zoom • Kéo để Di chuyển</div>
         
         <div class="floating-letter-btn" id="letter-btn">
-            <span class="icon">✉️</span>
-            <span>Có một lá thư dành cho bạn</span>
+            <div class="icon-container">
+                <span class="icon">✉️</span>
+                <span class="badge-count" id="letter-badge">1</span>
+            </div>
+            <span class="btn-text">Có một lá thư dành cho bạn</span>
         </div>
     </div>
 
@@ -852,12 +974,13 @@
         </div>
     </div>
 
-    <!-- 3. LETTER & ENVELOPE MODAL -->
+    <!-- 3. REALISTIC 3D ENVELOPE & LETTER MODAL -->
     <div class="letter-modal" id="letter-modal">
-        <div class="envelope-wrapper" id="envelope">
-            <div class="envelope-flap"></div>
-            <div class="paper-sheet"></div>
-            <div class="envelope-pocket"></div>
+        <div class="envelope-3d-wrapper" id="envelope-3d">
+            <div class="envelope-back-3d"></div>
+            <div class="paper-3d-slide" id="paper-3d-slide"></div>
+            <div class="envelope-pocket-3d"></div>
+            <div class="envelope-flap-3d"></div>
         </div>
 
         <div class="full-paper" id="full-paper">
@@ -897,12 +1020,13 @@
            ========================================== */
         const CONFIG = {
             PASSWORD: "1234",
+            MUSIC_URL: "birthday.mp3",
             
             CAMERA: {
                 minZoom: 0.35,
                 maxZoom: 2.2,
-                zoomSpeed: 0.0015, // Smooth wheel sensitivity
-                friction: 0.08      // Smooth spring interpolation
+                zoomSpeed: 0.0015,
+                friction: 0.08
             },
 
             MEMORIES: [
@@ -978,12 +1102,61 @@ Happy Birthday! 🎈✨`
         };
 
         /* ==========================================
-           AUDIO SYNTHESIZER
+           BACKGROUND MUSIC & AUDIO SYSTEM
            ========================================== */
+        const bgMusic = new Audio(CONFIG.MUSIC_URL);
+        bgMusic.loop = true;
+        bgMusic.volume = 0.35;
+
+        const audioBtn = document.getElementById('audio-btn');
+        const audioIcon = document.getElementById('audio-icon');
+
+        function updateAudioStateUI() {
+            if (!bgMusic.paused) {
+                audioIcon.textContent = '🔊';
+            } else {
+                audioIcon.textContent = '🔇';
+            }
+        }
+
+        function playBackgroundMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    updateAudioStateUI();
+                }).catch(err => {
+                    console.warn("Autoplay error or user gesture required:", err);
+                    updateAudioStateUI();
+                });
+            }
+        }
+
+        audioBtn.addEventListener('click', () => {
+            sound.playClick();
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    updateAudioStateUI();
+                }).catch(err => console.error("Play error:", err));
+            } else {
+                bgMusic.pause();
+                updateAudioStateUI();
+            }
+        });
+
+        // Universal User Gesture Listener to Trigger Audio Playback
+        const triggerAudioOnInteraction = () => {
+            playBackgroundMusic();
+            window.removeEventListener('click', triggerAudioOnInteraction);
+            window.removeEventListener('keydown', triggerAudioOnInteraction);
+            window.removeEventListener('touchstart', triggerAudioOnInteraction);
+        };
+        window.addEventListener('click', triggerAudioOnInteraction);
+        window.addEventListener('keydown', triggerAudioOnInteraction);
+        window.addEventListener('touchstart', triggerAudioOnInteraction);
+
+        /* Sound FX Synthesizer */
         class SoundEngine {
             constructor() {
                 this.ctx = null;
-                this.muted = true;
             }
 
             init() {
@@ -993,64 +1166,62 @@ Happy Birthday! 🎈✨`
             }
 
             playClick() {
-                if (this.muted) return;
-                this.init();
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, this.ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.05);
-                gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.05);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + 0.05);
+                try {
+                    this.init();
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.05);
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.05);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.05);
+                } catch(e){}
             }
 
             playSuccess() {
-                if (this.muted) return;
-                this.init();
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, idx) => {
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
-                    gain.gain.setValueAtTime(0.06, this.ctx.currentTime + idx * 0.08);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.3);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(this.ctx.currentTime + idx * 0.08);
-                    osc.stop(this.ctx.currentTime + idx * 0.08 + 0.3);
-                });
+                try {
+                    this.init();
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
+                        gain.gain.setValueAtTime(0.06, this.ctx.currentTime + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.3);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(this.ctx.currentTime + idx * 0.08);
+                        osc.stop(this.ctx.currentTime + idx * 0.08 + 0.3);
+                    });
+                } catch(e){}
             }
 
             playError() {
-                if (this.muted) return;
-                this.init();
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(180, this.ctx.currentTime);
-                osc.frequency.setValueAtTime(140, this.ctx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.25);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + 0.25);
+                try {
+                    this.init();
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+                    osc.frequency.setValueAtTime(140, this.ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.25);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.25);
+                } catch(e){}
             }
         }
 
         const sound = new SoundEngine();
-        const audioBtn = document.getElementById('audio-btn');
-        const audioIcon = document.getElementById('audio-icon');
-
-        audioBtn.addEventListener('click', () => {
-            sound.muted = !sound.muted;
-            audioIcon.textContent = sound.muted ? '🔇' : '🔊';
-            if (!sound.muted) { sound.init(); sound.playClick(); }
-        });
 
         /* ==========================================
            PARTICLE DUST CANVAS
@@ -1118,6 +1289,7 @@ Happy Birthday! 🎈✨`
 
         function handleInput(val) {
             sound.playClick();
+            playBackgroundMusic();
             errorMsg.style.opacity = '0';
 
             if (val === 'clear') {
@@ -1136,6 +1308,7 @@ Happy Birthday! 🎈✨`
         function verifyPin() {
             if (currentPin === CONFIG.PASSWORD) {
                 sound.playSuccess();
+                playBackgroundMusic();
                 lockScreen.classList.add('hidden');
                 setTimeout(() => { initMemorySpace(); }, 600);
             } else {
@@ -1164,7 +1337,7 @@ Happy Birthday! 🎈✨`
         });
 
         /* ==========================================
-           ADVANCED CAMERA (ZOOM TO CURSOR + PAN ENGINE)
+           CAMERA & MEMORY SPACE (ZOOM/PAN ENGINE)
            ========================================== */
         const memorySpace = document.getElementById('memory-space');
         const world = document.getElementById('world-container');
@@ -1220,7 +1393,6 @@ Happy Birthday! 🎈✨`
             memorySpace.classList.add('active');
             renderPolaroids();
 
-            // Center initial view
             const centerX = -(1800 * 0.8 - window.innerWidth / 2);
             const centerY = -(1400 * 0.8 - window.innerHeight / 2);
             camera.x = camera.targetX = centerX;
@@ -1229,10 +1401,9 @@ Happy Birthday! 🎈✨`
             requestAnimationFrame(updateCameraLoop);
         }
 
-        /* Direct Mouse Wheel Zoom Centered on Cursor */
+        /* Mouse Wheel Zoom Centered on Cursor */
         memorySpace.addEventListener('wheel', (e) => {
-            e.preventDefault(); // Stop native browser scroll/zoom
-
+            e.preventDefault();
             const zoomFactor = Math.exp(-e.deltaY * CONFIG.CAMERA.zoomSpeed);
             const newTargetZoom = Math.min(
                 CONFIG.CAMERA.maxZoom,
@@ -1241,11 +1412,9 @@ Happy Birthday! 🎈✨`
 
             if (newTargetZoom === camera.targetZoom) return;
 
-            // Cursor position relative to viewport
             const cursorX = e.clientX;
             const cursorY = e.clientY;
 
-            // Calculate world offset before zoom to anchor cursor
             const worldX = (cursorX - camera.targetX) / camera.targetZoom;
             const worldY = (cursorY - camera.targetY) / camera.targetZoom;
 
@@ -1312,17 +1481,13 @@ Happy Birthday! 🎈✨`
         window.addEventListener('pointerup', handlePointerEnd);
         window.addEventListener('pointercancel', handlePointerEnd);
 
-        /* Smooth Interpolation Rendering Frame */
         function updateCameraLoop() {
-            // Easing / Spring interpolation
             camera.zoom += (camera.targetZoom - camera.zoom) * CONFIG.CAMERA.friction;
             camera.x += (camera.targetX - camera.x) * CONFIG.CAMERA.friction;
             camera.y += (camera.targetY - camera.y) * CONFIG.CAMERA.friction;
 
-            // Apply transform to main world
             world.style.transform = `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.zoom})`;
 
-            // Parallax subtle offset for pink background blobs
             if (parallaxLayer) {
                 parallaxLayer.style.transform = `translate3d(${-camera.x * 0.15}px, ${-camera.y * 0.15}px, 0)`;
             }
@@ -1347,27 +1512,62 @@ Happy Birthday! 🎈✨`
         });
 
         /* ==========================================
-           LETTER & ENVELOPE MODAL LOGIC
+           MULTI-TIMELINE REALISTIC 3D ENVELOPE ANIMATION
            ========================================== */
         const letterBtn = document.getElementById('letter-btn');
+        const letterBadge = document.getElementById('letter-badge');
         const letterModal = document.getElementById('letter-modal');
-        const envelope = document.getElementById('envelope');
+        const envelope3d = document.getElementById('envelope-3d');
         const fullPaper = document.getElementById('full-paper');
+        const vignetteOverlay = document.getElementById('vignette-overlay');
 
         document.getElementById('paper-title').textContent = CONFIG.LETTER.title;
         document.getElementById('paper-body').textContent = CONFIG.LETTER.content;
         document.getElementById('paper-signature').textContent = CONFIG.LETTER.signature;
 
-        letterBtn.addEventListener('click', () => {
-            sound.playClick();
-            letterModal.classList.add('active');
-        });
+        let isLetterOpening = false;
 
-        envelope.addEventListener('click', () => {
+        letterBtn.addEventListener('click', () => {
+            if (isLetterOpening) return; // Prevent spam click during animation
+            isLetterOpening = true;
+
             sound.playClick();
-            envelope.classList.add('open');
-            setTimeout(() => { envelope.classList.add('opening'); }, 600);
-            setTimeout(() => { fullPaper.classList.add('active'); }, 1000);
+
+            // 1. Stop notification shaking & hide badge "1"
+            letterBtn.classList.add('no-shake');
+            letterBadge.classList.add('hidden');
+
+            // 2. Camera zoom & background blur
+            camera.targetZoom = Math.min(CONFIG.CAMERA.maxZoom, camera.targetZoom * 1.08);
+            memorySpace.classList.add('blurred');
+            vignetteOverlay.classList.add('dimmed');
+
+            // 3. Show Envelope Modal container and trigger center entry
+            letterModal.classList.add('active');
+            envelope3d.classList.add('center-anim');
+
+            // Timeline Sequencer:
+            // T=0.2s: Envelope Flap Opens
+            setTimeout(() => {
+                envelope3d.classList.add('open');
+            }, 200);
+
+            // T=0.6s: Paper Slides Out
+            setTimeout(() => {
+                envelope3d.classList.add('paper-out');
+            }, 600);
+
+            // T=1.1s: Paper Expands / Scales
+            setTimeout(() => {
+                envelope3d.classList.add('paper-expand');
+            }, 1100);
+
+            // T=1.5s: Envelope Fades, Full Paper Displays Smoothly
+            setTimeout(() => {
+                envelope3d.classList.add('fade-out');
+                fullPaper.classList.add('active');
+                isLetterOpening = false; // Reset lock
+            }, 1500);
         });
 
         /* ==========================================
@@ -1403,7 +1603,12 @@ Happy Birthday! 🎈✨`
             giftResult.classList.remove('active');
             giftBox.classList.remove('open');
             fullPaper.classList.remove('active');
-            envelope.classList.remove('open', 'opening');
+            
+            // Reset Envelope State
+            envelope3d.className = 'envelope-3d-wrapper';
+            memorySpace.classList.remove('blurred');
+            vignetteOverlay.classList.remove('dimmed');
+            
             giftHint.style.opacity = '1';
         });
     </script>
