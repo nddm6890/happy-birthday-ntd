@@ -452,19 +452,19 @@
         }
 
         .drag-hint {
-            position: fixed;
-            bottom: 36px;
-            left: 36px;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: var(--color-secondary);
-            pointer-events: none;
-            z-index: 50;
-            border: 1px solid rgba(242, 215, 217, 0.6);
-        }
+  	  position: fixed;
+  	  top: 36px; /* Chuyển từ bottom sang top */
+  	  left: 36px;
+   	  background: rgba(255, 255, 255, 0.75);
+  	  backdrop-filter: blur(10px);
+  	  padding: 10px 20px;
+   	  border-radius: 20px;
+	  font-size: 0.8rem;
+  	  color: var(--color-secondary);
+  	  pointer-events: none;
+  	  z-index: 50;
+  	  border: 1px solid rgba(242, 215, 217, 0.6);
+	}
 
         /* Polaroid Zoom Modal */
         .modal-overlay {
@@ -590,8 +590,9 @@
             border-right: 160px solid #E2D0BF;
             border-bottom: 110px solid #D0BCA8;
             border-radius: 0 0 8px 8px;
-            z-index: 4;
             pointer-events: none;
+            z-index: 100; /* Nâng z-index lên rất cao */
+            transform: translateZ(10px);
         }
 
         .envelope-back-3d {
@@ -621,7 +622,7 @@
 
         /* Envelope paper slide out animation steps */
         .envelope-3d-wrapper.paper-out .paper-3d-slide {
-            transform: translateY(-170px) scale(1.02);
+            transform: translateY(-200px) scale(1.02);
             z-index: 6;
         }
 
