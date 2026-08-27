@@ -3,2667 +3,1409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday ❤️</title>
+    <title>Góc Kỷ Niệm — Happy Birthday</title>
+    <!-- Google Fonts: Playfair Display, Dancing Script, Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        /* =========================
-           RESET
-        ========================= */
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* ==========================================
+           1. RESET & CSS VARIABLES (PINK PALETTE)
+           ========================================== */
+        :root {
+            /* Pink Palette: Soft, Dusty, Elegant, Creamy */
+            --bg-base: #FDF6F0;
+            --pink-soft: #F8E8EE;
+            --pink-blush: #F2D7D9;
+            --pink-dusty: #DDA8B3;
+            --pink-rose: #C6898F;
+            --color-burgundy: #581825;
+            --color-primary: #3C2A21;
+            --color-secondary: #7B6861;
+            --color-gold: #D4AF37;
+            
+            --shadow-soft: 0 10px 30px rgba(88, 24, 37, 0.08);
+            --shadow-deep: 0 20px 40px rgba(60, 42, 33, 0.2);
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-handwriting: 'Dancing Script', cursive;
+            --font-sans: 'Inter', sans-serif;
+            --transition-smooth: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        html,
-        body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        body, html {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #faf6f1;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            touch-action: none;
-            overscroll-behavior: none;
+            background-color: var(--bg-base);
+            font-family: var(--font-sans);
+            color: var(--color-primary);
+            -webkit-font-smoothing: antialiased;
         }
 
-        img {
-            -webkit-user-drag: none;
-            user-drag: none;
-            pointer-events: none;
-        }
-
-        button {
-            cursor: pointer;
-            border: none;
-            outline: none;
-            background: none;
-            font-family: inherit;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        button:focus-visible {
-            outline: 3px solid rgba(190, 120, 140, 0.6);
-            outline-offset: 2px;
-            border-radius: 12px;
-        }
-
-        /* =========================
-           VARIABLES
-        ========================= */
-        :root {
-            --cream: #faf6f1;
-            --cream-dark: #f3ece4;
-            --blush: #f8e8e8;
-            --pastel-pink: #f5dcdc;
-            --dusty-rose: #dba8a8;
-            --soft-rose: #c98a8a;
-            --brown-rose: #a87070;
-            --burgundy: #8b4a4a;
-            --gold-warm: #d4a860;
-            --text-dark: #4a3535;
-            --text-medium: #6b5050;
-            --text-light: #9a7a7a;
-            --white: #ffffff;
-            --shadow-soft: 0 8px 30px rgba(160, 100, 100, 0.15);
-            --shadow-medium: 0 15px 45px rgba(140, 80, 80, 0.2);
-            --shadow-large: 0 25px 70px rgba(120, 60, 60, 0.25);
-            --radius-small: 8px;
-            --radius-medium: 16px;
-            --radius-large: 24px;
-            --radius-xl: 32px;
-            --font-serif: 'Playfair Display', serif;
-            --font-hand: 'Dancing Script', cursive;
-            --font-body: 'Inter', sans-serif;
-            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-spring: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* =========================
-           PASSWORD SCREEN
-        ========================= */
-        #password-screen {
+        /* Ambient Dust Particle Canvas Overlay */
+        #particle-canvas {
             position: fixed;
-            inset: 0;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Soft Vignette Overlay */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 120px rgba(88, 24, 37, 0.12);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Audio Toggle Button (Fixed UI) */
+        .audio-toggle {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(221, 168, 179, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-smooth);
+        }
+
+        .audio-toggle:hover {
+            transform: scale(1.05);
+            background: #FFFFFF;
+        }
+
+        /* ==========================================
+           2. LOCK SCREEN (MÀN HÌNH MẬT MÃ)
+           ========================================== */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(160deg, #faf6f1 0%, #f8e8e8 30%, #f0d8d8 60%, #f5e0e0 100%);
-            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-                filter 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: center;
+            z-index: 10;
+            transition: opacity 1s ease, transform 1s ease, filter 1s ease;
         }
-        #password-screen.hidden {
+
+        .screen.hidden {
             opacity: 0;
-            filter: blur(20px);
+            pointer-events: none;
             transform: scale(1.05);
-            pointer-events: none;
+            filter: blur(12px);
         }
 
-        .password-bg-shapes {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .password-bg-shapes .shape {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.25;
-            animation: floatShape 12s ease-in-out infinite;
-        }
-        .password-bg-shapes .shape:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            background: #f0d0d0;
-            top: -80px;
-            left: -60px;
-            animation-delay: 0s;
-        }
-        .password-bg-shapes .shape:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            background: #e8c8c8;
-            bottom: 10%;
-            right: -40px;
-            animation-delay: -4s;
-        }
-        .password-bg-shapes .shape:nth-child(3) {
-            width: 150px;
-            height: 150px;
-            background: #f5dede;
-            top: 20%;
-            right: 15%;
-            animation-delay: -8s;
-        }
-        .password-bg-shapes .shape:nth-child(4) {
-            width: 180px;
-            height: 180px;
-            background: #ecd5d5;
-            bottom: -30px;
-            left: 20%;
-            animation-delay: -2s;
+        #lock-screen {
+            background: radial-gradient(circle at center, #FDF6F0 0%, #F2D7D9 100%);
         }
 
-        @keyframes floatShape {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(15px, -20px) scale(1.05);
-            }
-            50% {
-                transform: translate(-10px, 15px) scale(0.95);
-            }
-            75% {
-                transform: translate(20px, 10px) scale(1.02);
-            }
-        }
-
-        .password-container {
-            position: relative;
-            z-index: 2;
+        .lock-container {
             text-align: center;
-            padding: 40px 30px;
-            background: rgba(255, 255, 255, 0.55);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-large);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            max-width: 420px;
+            max-width: 360px;
             width: 90%;
+            padding: 32px 24px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow-deep);
         }
 
-        .password-title {
+        .lock-title {
             font-family: var(--font-serif);
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
+            font-size: 1.4rem;
+            color: var(--color-burgundy);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .password-subtitle {
-            font-family: var(--font-hand);
-            font-size: 1.25rem;
-            color: var(--text-medium);
+        .lock-subtitle {
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+            margin-bottom: 24px;
+        }
+
+        .pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
             margin-bottom: 28px;
         }
 
-        .password-dots {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            margin-bottom: 32px;
-            min-height: 40px;
-            align-items: center;
-        }
-        .password-dots .dot {
-            width: 16px;
-            height: 16px;
+        .dot {
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: transparent;
-            border: 2.5px solid var(--dusty-rose);
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: center;
-        }
-        .password-dots .dot.filled {
-            background: var(--soft-rose);
-            border-color: var(--soft-rose);
-            transform: scale(1.1);
-            box-shadow: 0 0 12px rgba(200, 130, 130, 0.5);
-        }
-        .password-dots.shake {
-            animation: shakeDots 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-        }
-        @keyframes shakeDots {
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-            15% {
-                transform: translateX(-12px);
-            }
-            30% {
-                transform: translateX(10px);
-            }
-            45% {
-                transform: translateX(-7px);
-            }
-            60% {
-                transform: translateX(5px);
-            }
-            75% {
-                transform: translateX(-3px);
-            }
+            border: 2px solid var(--pink-dusty);
+            transition: all 0.2s ease;
         }
 
-        .password-error {
-            font-size: 0.9rem;
-            color: #c05050;
-            min-height: 28px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        .password-error.show {
-            opacity: 1;
+        .dot.filled {
+            background-color: var(--color-burgundy);
+            border-color: var(--color-burgundy);
+            box-shadow: 0 0 10px rgba(88, 24, 37, 0.3);
+            transform: scale(1.15);
         }
 
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            max-width: 300px;
+            gap: 12px;
+            max-width: 260px;
             margin: 0 auto;
         }
-        .keypad button {
-            width: 72px;
-            height: 72px;
+
+        .key {
+            aspect-ratio: 1;
             border-radius: 50%;
-            font-size: 1.4rem;
+            border: none;
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--color-primary);
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
             font-weight: 500;
-            color: var(--text-dark);
-            background: rgba(255, 255, 255, 0.8);
-            border: 1.5px solid rgba(220, 180, 180, 0.4);
-            box-shadow: 0 4px 15px rgba(160, 100, 100, 0.1);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        .keypad button:active {
-            transform: scale(0.88);
-            background: rgba(245, 220, 220, 0.9);
-            box-shadow: 0 2px 8px rgba(160, 100, 100, 0.15);
-        }
-        .keypad button:hover {
-            background: rgba(250, 235, 235, 0.9);
-            border-color: rgba(200, 150, 150, 0.5);
-            box-shadow: 0 6px 20px rgba(160, 100, 100, 0.18);
-            transform: translateY(-2px);
-        }
-        .keypad button.keypad-backspace {
-            font-size: 1.1rem;
-            color: var(--text-medium);
-        }
-        .keypad button.keypad-enter {
-            font-size: 1.3rem;
-            background: rgba(210, 160, 160, 0.3);
-            border-color: rgba(200, 140, 140, 0.4);
-            color: var(--brown-rose);
-        }
-        .keypad button.keypad-enter:hover {
-            background: rgba(210, 160, 160, 0.45);
-        }
-        .keypad button.success-flash {
-            background: #c8e6c0 !important;
-            border-color: #a0c898 !important;
-            color: #4a7a4a !important;
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(140, 200, 140, 0.6);
-        }
-
-        /* =========================
-           SOUND TOGGLE BUTTON
-        ========================= */
-        #sound-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 2000;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1.5px solid rgba(220, 180, 180, 0.4);
-            box-shadow: var(--shadow-soft);
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--text-dark);
-        }
-        #sound-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-medium);
-        }
-        #sound-toggle:active {
-            transform: scale(0.9);
+            box-shadow: 0 4px 10px rgba(88, 24, 37, 0.05);
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* =========================
-           MEMORY SPACE
-        ========================= */
-        #memory-space {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            background: var(--cream);
-            overflow: hidden;
-            cursor: grab;
-            transition: opacity 0.5s ease;
+        .key:active {
+            transform: scale(0.92);
+            background: var(--pink-blush);
         }
-        #memory-space.dragging {
-            cursor: grabbing;
+
+        .key-action {
+            font-size: 1rem;
+            font-family: var(--font-sans);
         }
-        #memory-space.hidden {
+
+        .error-message {
+            color: var(--color-burgundy);
+            font-size: 0.85rem;
+            margin-top: 16px;
+            min-height: 20px;
             opacity: 0;
-            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        #world-container {
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
+        /* ==========================================
+           3. MEMORY SPACE & MULTI-LAYER PINK BACKGROUND
+           ========================================== */
+        #memory-space {
             position: absolute;
             top: 0;
             left: 0;
-            width: 4000px;
-            height: 3000px;
-            transform-origin: 0 0;
-            will-change: transform;
-            pointer-events: none;
-        }
-        #world-container.photos-active {
-            pointer-events: auto;
-        }
-
-        /* Background layers inside world */
-        .world-bg-layer {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-        .world-bg-base {
-            background: linear-gradient(135deg, #faf6f1 0%, #f8eded 25%, #f5e0e0 50%, #f8ecec 75%, #faf3f0 100%);
-        }
-        .world-bg-shapes {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-        }
-        .world-bg-shapes .blob {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.2;
-            pointer-events: none;
-            animation: blobFloat 15s ease-in-out infinite;
-        }
-        .world-bg-shapes .blob:nth-child(1) {
-            width: 500px;
-            height: 500px;
-            background: #f0d5d5;
-            top: -100px;
-            left: 200px;
-            animation-delay: 0s;
-        }
-        .world-bg-shapes .blob:nth-child(2) {
-            width: 350px;
-            height: 350px;
-            background: #e8c8c8;
-            top: 500px;
-            left: 1800px;
-            animation-delay: -4s;
-        }
-        .world-bg-shapes .blob:nth-child(3) {
-            width: 400px;
-            height: 400px;
-            background: #f5dede;
-            top: 1200px;
-            left: 400px;
-            animation-delay: -8s;
-        }
-        .world-bg-shapes .blob:nth-child(4) {
-            width: 450px;
-            height: 450px;
-            background: #ecd8d8;
-            top: 2000px;
-            left: 2500px;
-            animation-delay: -2s;
-        }
-        .world-bg-shapes .blob:nth-child(5) {
-            width: 300px;
-            height: 300px;
-            background: #f0d0d0;
-            top: 800px;
-            left: 3000px;
-            animation-delay: -6s;
-        }
-        .world-bg-shapes .blob:nth-child(6) {
-            width: 380px;
-            height: 380px;
-            background: #f8e5e5;
-            top: 1800px;
-            left: 600px;
-            animation-delay: -10s;
-        }
-        .world-bg-shapes .blob:nth-child(7) {
-            width: 250px;
-            height: 250px;
-            background: #e0c0c0;
-            top: 2600px;
-            left: 1500px;
-            animation-delay: -12s;
-        }
-        .world-bg-shapes .blob:nth-child(8) {
-            width: 320px;
-            height: 320px;
-            background: #f5d5d5;
-            top: 400px;
-            left: 3500px;
-            animation-delay: -7s;
-        }
-
-        @keyframes blobFloat {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            20% {
-                transform: translate(30px, -40px) scale(1.08);
-            }
-            40% {
-                transform: translate(-25px, 25px) scale(0.94);
-            }
-            60% {
-                transform: translate(40px, 15px) scale(1.05);
-            }
-            80% {
-                transform: translate(-15px, -30px) scale(0.97);
-            }
-        }
-
-        /* Light spots */
-        .world-light-spot {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.15;
-            filter: blur(40px);
-            animation: lightPulse 8s ease-in-out infinite;
-        }
-        .world-light-spot:nth-child(1) {
-            width: 600px;
-            height: 600px;
-            background: #fff5e8;
-            top: 200px;
-            left: 800px;
-            animation-delay: 0s;
-        }
-        .world-light-spot:nth-child(2) {
-            width: 500px;
-            height: 500px;
-            background: #fce8e8;
-            top: 1500px;
-            left: 2000px;
-            animation-delay: -3s;
-        }
-        .world-light-spot:nth-child(3) {
-            width: 400px;
-            height: 400px;
-            background: #f5e0d8;
-            top: 2400px;
-            left: 800px;
-            animation-delay: -6s;
-        }
-        .world-light-spot:nth-child(4) {
-            width: 550px;
-            height: 550px;
-            background: #fff0e8;
-            top: 800px;
-            left: 3000px;
-            animation-delay: -4s;
-        }
-
-        @keyframes lightPulse {
-            0%,
-            100% {
-                opacity: 0.1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.2;
-                transform: scale(1.15);
-            }
-        }
-
-        /* Dust particles */
-        .world-dust-particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(180, 140, 140, 0.35);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: dustFloat 18s linear infinite;
-            opacity: 0;
-        }
-        @keyframes dustFloat {
-            0% {
-                opacity: 0;
-                transform: translateY(0) translateX(0);
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-250px) translateX(40px);
-            }
-        }
-
-        /* =========================
-           PHOTOS / MEMORIES
-        ========================= */
-        .memory-photo {
-            position: absolute;
-            cursor: pointer;
-            pointer-events: auto;
-            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                filter 0.35s ease;
-            will-change: transform;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .memory-photo-inner {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 14px 14px 20px;
-            box-shadow: 0 6px 25px rgba(140, 80, 80, 0.18),
-                0 2px 6px rgba(140, 80, 80, 0.1);
-            text-align: center;
-            position: relative;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid rgba(220, 190, 190, 0.3);
-        }
-        .memory-photo-inner::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 15%;
-            right: 15%;
-            height: 12px;
-            background: rgba(0, 0, 0, 0.08);
-            border-radius: 50%;
-            filter: blur(6px);
-            transition: all 0.3s ease;
-        }
-
-        .memory-photo:hover .memory-photo-inner {
-            transform: scale(1.06) rotate(0deg) !important;
-            box-shadow: 0 20px 50px rgba(140, 80, 80, 0.28),
-                0 4px 12px rgba(140, 80, 80, 0.15);
-            border-color: rgba(200, 150, 150, 0.4);
-        }
-        .memory-photo:hover {
-            z-index: 50 !important;
-        }
-        .memory-photo:hover .memory-photo-inner::after {
-            bottom: -8px;
-            height: 16px;
-            filter: blur(8px);
-            background: rgba(0, 0, 0, 0.12);
-        }
-
-        .memory-photo img {
             width: 100%;
-            height: auto;
-            border-radius: 4px;
+            height: 100%;
+            overflow: hidden;
+            cursor: grab;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            background: var(--bg-base);
+            touch-action: none;
+        }
+
+        #memory-space.active {
+            opacity: 1;
+        }
+
+        #memory-space:active {
+            cursor: grabbing;
+        }
+
+        /* The Main Infinite Canvas Camera Box */
+        .world-container {
+            position: absolute;
+            width: 3600px;
+            height: 2800px;
+            top: 0;
+            left: 0;
+            will-change: transform;
+            transform-origin: 0 0;
+        }
+
+        /* Layer 1: Parallax Soft Pink Background Shapes */
+        .bg-layer-parallax {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .pink-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.55;
+            will-change: transform;
+        }
+
+        .pink-card-decor {
+            position: absolute;
+            background: rgba(248, 232, 238, 0.45);
+            border: 1px solid rgba(221, 168, 179, 0.3);
+            border-radius: 16px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+
+        /* Polaroid Cards */
+        .polaroid {
+            position: absolute;
+            background: #FFFFFF;
+            padding: 12px 12px 18px 12px;
+            border-radius: 6px;
+            box-shadow: 0 12px 30px rgba(88, 24, 37, 0.1);
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease;
+            will-change: transform;
+            border: 1px solid rgba(242, 215, 217, 0.4);
+        }
+
+        .polaroid-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 3px;
+            background-color: var(--pink-soft);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
             pointer-events: none;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-            background: #e8ddd5;
-            transition: transform 0.3s ease;
-        }
-        .memory-photo:hover img {
-            transform: scale(1.02);
+            transition: transform 0.6s ease;
         }
 
-        .memory-photo-caption {
-            font-family: var(--font-hand);
-            font-size: 1.1rem;
-            color: var(--text-medium);
-            margin-top: 10px;
-            line-height: 1.3;
+        .polaroid-caption {
+            margin-top: 12px;
+            text-align: center;
         }
-        .memory-photo-date {
-            font-size: 0.75rem;
-            color: var(--text-light);
+
+        .polaroid-title {
+            font-family: var(--font-handwriting);
+            font-size: 1.3rem;
+            color: var(--color-burgundy);
+            line-height: 1.2;
+        }
+
+        .polaroid-date {
+            font-size: 0.7rem;
+            color: var(--color-secondary);
             margin-top: 4px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* Photo lightbox */
-        #photo-lightbox {
+        .polaroid:hover {
+            z-index: 80 !important;
+            transform: scale(1.08) rotate(0deg) !important;
+            box-shadow: 0 20px 40px rgba(88, 24, 37, 0.2);
+        }
+
+        .polaroid:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Fixed UI: Floating Envelope Button */
+        .floating-letter-btn {
             position: fixed;
-            inset: 0;
-            z-index: 1500;
-            background: rgba(40, 20, 20, 0.75);
+            bottom: 36px;
+            right: 36px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 14px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-deep);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            z-index: 50;
+            border: 1px solid var(--pink-dusty);
+            animation: floatSlow 4s ease-in-out infinite;
+            transition: var(--transition-smooth);
+        }
+
+        .floating-letter-btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            background: #FFFFFF;
+        }
+
+        .floating-letter-btn .icon {
+            font-size: 1.4rem;
+        }
+
+        .floating-letter-btn span {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--color-burgundy);
+            font-weight: 500;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+
+        .drag-hint {
+            position: fixed;
+            bottom: 36px;
+            left: 36px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--color-secondary);
+            pointer-events: none;
+            z-index: 50;
+            border: 1px solid rgba(242, 215, 217, 0.6);
+        }
+
+        /* Polaroid Zoom Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 29, 26, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 30px;
+            transition: opacity 0.4s ease;
         }
-        #photo-lightbox.active {
+
+        .modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
-        .lightbox-content {
-            background: var(--white);
-            border-radius: var(--radius-large);
-            padding: 30px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            text-align: center;
-            box-shadow: var(--shadow-large);
-            transform: scale(0.85) translateY(20px);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        #photo-lightbox.active .lightbox-content {
-            transform: scale(1) translateY(0);
-        }
-        .lightbox-content img {
-            width: 100%;
-            max-height: 50vh;
-            object-fit: cover;
+
+        .modal-card {
+            background: #FFF;
+            padding: 20px 20px 28px 20px;
             border-radius: 8px;
-            display: block;
+            max-width: 90%;
+            width: 440px;
+            box-shadow: var(--shadow-deep);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            border: 1px solid var(--pink-soft);
         }
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.85);
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-soft);
-            color: var(--text-dark);
-            z-index: 1501;
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
         }
-        .lightbox-close:hover {
-            transform: scale(1.1);
-            background: var(--white);
+
+        .modal-card img {
+            width: 100%;
+            max-height: 52vh;
+            object-fit: cover;
+            border-radius: 4px;
         }
-        .lightbox-title {
-            font-family: var(--font-hand);
-            font-size: 1.6rem;
-            color: var(--text-dark);
+
+        .modal-card p {
             margin-top: 16px;
-        }
-        .lightbox-desc {
-            font-size: 0.95rem;
-            color: var(--text-medium);
-            margin-top: 8px;
+            font-family: var(--font-serif);
+            color: var(--color-primary);
+            font-size: 1.05rem;
             line-height: 1.6;
         }
-        .lightbox-date {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-top: 6px;
-            letter-spacing: 1px;
-        }
 
-        /* =========================
-           LETTER NOTIFICATION (Fixed UI)
-        ========================= */
-        #letter-notification {
+        /* ==========================================
+           4. LETTER & ENVELOPE MODAL
+           ========================================== */
+        .letter-modal {
             position: fixed;
-            right: 28px;
-            top: 28px;
-            z-index: 900;
-            cursor: pointer;
-            pointer-events: auto;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        #letter-notification:hover {
-            transform: scale(1.08);
-        }
-        #letter-notification:active {
-            transform: scale(0.92);
-        }
-        #letter-notification.opened .letter-badge {
-            display: none;
-        }
-        #letter-notification.opened .letter-envelope-icon {
-            animation: none !important;
-        }
-
-        .letter-envelope-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(160deg, #fdf5f0 0%, #f8e5e5 40%, #f0d5d5 100%);
-            border-radius: 16px;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 18, 20, 0.7);
+            backdrop-filter: blur(12px);
+            z-index: 150;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 8px 30px rgba(160, 100, 100, 0.25),
-                0 2px 8px rgba(160, 100, 100, 0.12);
-            border: 1.5px solid rgba(220, 180, 180, 0.5);
-            animation: letterIdle 2.5s ease-in-out infinite;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        @keyframes letterIdle {
-            0%,
-            100% {
-                transform: rotate(0deg) translateY(0);
-            }
-            15% {
-                transform: rotate(-4deg) translateY(-3px);
-            }
-            30% {
-                transform: rotate(4deg) translateY(-2px);
-            }
-            45% {
-                transform: rotate(-3deg) translateY(-1px);
-            }
-            60% {
-                transform: rotate(0deg) translateY(0);
-            }
-        }
-        #letter-notification.opened .letter-envelope-icon {
-            animation: none;
-            box-shadow: 0 4px 15px rgba(160, 100, 100, 0.15);
-            opacity: 0.7;
-        }
-
-        .letter-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: #e05050;
-            color: var(--white);
-            font-size: 0.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 10px rgba(200, 60, 60, 0.5);
-            animation: badgePulse 1.8s ease-in-out infinite;
-            border: 2px solid var(--white);
-        }
-        @keyframes badgePulse {
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 3px 10px rgba(200, 60, 60, 0.5);
-            }
-            50% {
-                transform: scale(1.2);
-                box-shadow: 0 3px 18px rgba(200, 60, 60, 0.75);
-            }
-        }
-
-        .letter-tooltip {
-            position: absolute;
-            right: 0;
-            top: 74px;
-            background: var(--white);
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            color: var(--text-dark);
-            box-shadow: var(--shadow-medium);
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateY(-8px);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-            font-weight: 500;
-            border: 1px solid rgba(220, 190, 190, 0.3);
-        }
-        .letter-tooltip.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .letter-tooltip::after {
-            content: '';
-            position: absolute;
-            top: -6px;
-            right: 24px;
-            width: 10px;
-            height: 10px;
-            background: var(--white);
-            transform: rotate(45deg);
-            border-top: 1px solid rgba(220, 190, 190, 0.3);
-            border-left: 1px solid rgba(220, 190, 190, 0.3);
-        }
-
-        /* =========================
-           LETTER MODAL
-        ========================= */
-        #letter-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 1200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(40, 20, 20, 0.6);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 20px;
-        }
-        #letter-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        #letter-modal .letter-paper {
-            background: var(--cream);
-            border-radius: var(--radius-large);
-            padding: 40px 35px;
-            max-width: 520px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-large);
-            transform: scale(0.8) translateY(30px);
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-align: center;
-            border: 1px solid rgba(220, 190, 190, 0.2);
-            position: relative;
-            background-image: linear-gradient(rgba(200, 170, 170, 0.04) 1px, transparent 1px);
-            background-size: 100% 28px;
-        }
-        #letter-modal.active .letter-paper {
-            transform: scale(1) translateY(0);
-        }
-        .letter-paper-title {
-            font-family: var(--font-hand);
-            font-size: 2rem;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-        .letter-paper-content {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: var(--text-medium);
-            line-height: 1.9;
-            white-space: pre-line;
-            text-align: left;
-            margin-bottom: 24px;
-            font-weight: 400;
-        }
-        .letter-paper-signature {
-            font-family: var(--font-hand);
-            font-size: 1.4rem;
-            color: var(--soft-rose);
-            margin-bottom: 20px;
-        }
-        .letter-gift-btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background: linear-gradient(160deg, #f0d5d5 0%, #e0b8b8 100%);
-            color: var(--text-dark);
-            font-size: 1.05rem;
-            font-weight: 600;
-            border-radius: 50px;
-            box-shadow: 0 6px 20px rgba(180, 120, 120, 0.25);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: pointer;
-            border: 1px solid rgba(200, 150, 150, 0.4);
-            letter-spacing: 0.5px;
-            font-family: var(--font-body);
-        }
-        .letter-gift-btn:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 12px 30px rgba(180, 120, 120, 0.35);
-            background: linear-gradient(160deg, #f5dede 0%, #e8c5c5 100%);
-        }
-        .letter-gift-btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 3px 10px rgba(180, 120, 120, 0.2);
-        }
-
-        /* =========================
-           GIFT BOX MODAL
-        ========================= */
-        #gift-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 1300;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(30, 15, 15, 0.7);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 20px;
         }
-        #gift-modal.active {
+
+        .letter-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #E8D5C4;
+            border-radius: 8px;
+            box-shadow: var(--shadow-deep);
+            cursor: pointer;
+            transition: transform 0.6s ease;
+        }
+
+        .envelope-wrapper.opening {
+            transform: translateY(120px) scale(0.9);
+            pointer-events: none;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #D8C2AF;
+            transform-origin: top;
+            transition: transform 0.5s ease 0.2s, z-index 0.2s ease 0.2s;
+            z-index: 4;
+        }
+
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 160px solid #E2D0BF;
+            border-right: 160px solid #E2D0BF;
+            border-bottom: 110px solid #D0BCA8;
+            border-radius: 0 0 8px 8px;
+            z-index: 3;
+        }
+
+        .paper-sheet {
+            position: absolute;
+            top: 10px; left: 15px;
+            width: 290px; height: 190px;
+            background: #FDFBF7;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+        }
+
+        .envelope-wrapper.open .paper-sheet {
+            transform: translateY(-160px);
+        }
+
+        .full-paper {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.85);
+            width: 90%;
+            max-width: 520px;
+            max-height: 82vh;
+            background: #FDFBF7;
+            padding: 40px 36px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-deep);
+            z-index: 160;
+            opacity: 0;
+            pointer-events: none;
+            overflow-y: auto;
+            border: 1px solid var(--pink-blush);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .full-paper.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .paper-title {
+            font-family: var(--font-handwriting);
+            font-size: 2.3rem;
+            color: var(--color-burgundy);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .paper-body {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-primary);
+            white-space: pre-line;
+            margin-bottom: 28px;
+        }
+
+        .paper-signature {
+            font-family: var(--font-handwriting);
+            font-size: 1.6rem;
+            text-align: right;
+            color: var(--pink-rose);
+        }
+
+        .btn-open-gift {
+            display: block;
+            margin: 32px auto 0 auto;
+            padding: 14px 30px;
+            background: var(--color-burgundy);
+            color: #FFF;
+            border: none;
+            border-radius: 30px;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(88, 24, 37, 0.25);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-open-gift:hover {
+            background: #3F101A;
+            transform: scale(1.04);
+        }
+
+        /* ==========================================
+           5. GIFT BOX & FINAL SURPRISE
+           ========================================== */
+        .gift-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #3A1C22 0%, #17090C 100%);
+            z-index: 180;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        .gift-modal.active {
             opacity: 1;
             pointer-events: auto;
         }
 
         .gift-box-container {
             position: relative;
-            text-align: center;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            transition: transform 0.3s ease;
-        }
-        .gift-box-container:hover {
-            transform: scale(1.04);
-        }
-        .gift-box-container:active {
-            transform: scale(0.95);
-        }
-
-        .gift-box {
-            position: relative;
             width: 180px;
             height: 180px;
-            margin: 0 auto;
             cursor: pointer;
-            transition: all 0.3s ease;
+            perspective: 1000px;
         }
-        .gift-box-body {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 110px;
-            background: linear-gradient(180deg, #f0d0d0 0%, #e0b5b5 40%, #d5a0a0 100%);
-            border-radius: 8px 8px 12px 12px;
-            box-shadow: 0 8px 30px rgba(120, 60, 60, 0.3);
-            border: 2px solid rgba(190, 140, 140, 0.4);
+
+        .gift-body {
+            width: 100%; height: 100%;
+            background: var(--color-burgundy);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
             overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.4);
         }
-        .gift-box-body::after {
-            content: '';
+
+        .ribbon-v {
             position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 28px;
-            background: linear-gradient(180deg, #faf0e8 0%, #f0e0d8 50%, #faf0e8 100%);
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 36px; height: 100%;
+            background: var(--color-gold);
+        }
+
+        .ribbon-h {
+            position: absolute;
+            top: 50%; left: 0;
             transform: translateY(-50%);
-            border-top: 2px solid rgba(200, 150, 150, 0.3);
-            border-bottom: 2px solid rgba(200, 150, 150, 0.3);
-            z-index: 2;
+            width: 100%; height: 36px;
+            background: var(--color-gold);
         }
-        .gift-box-lid {
+
+        .gift-lid {
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 160px;
-            height: 45px;
-            background: linear-gradient(180deg, #f5d8d8 0%, #e8bcbc 100%);
+            top: -12px; left: -10px;
+            width: 200px; height: 50px;
+            background: #6D1E2D;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(120, 60, 60, 0.25);
-            border: 2px solid rgba(190, 140, 140, 0.4);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 3;
-        }
-        .gift-box-lid::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 28px;
-            background: linear-gradient(180deg, #fae8dc 0%, #f5d5d0 100%);
-            border-radius: 50%;
-            border: 2px solid rgba(200, 150, 150, 0.4);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .gift-box-ribbon-v {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 100%;
-            background: linear-gradient(180deg, #d4a860 0%, #c99550 50%, #d4a860 100%);
-            border-radius: 2px;
-            z-index: 4;
-            pointer-events: none;
-            opacity: 0.85;
-        }
-        .gift-box.animating .gift-box-body {
-            animation: giftShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-        }
-        .gift-box.animating .gift-box-lid {
-            animation: lidPopOff 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @keyframes giftShake {
-            0%,
-            100% {
-                transform: translateX(-50%) rotate(0deg);
-            }
-            15% {
-                transform: translateX(-52%) rotate(-2deg);
-            }
-            30% {
-                transform: translateX(-48%) rotate(2deg);
-            }
-            45% {
-                transform: translateX(-51%) rotate(-1.5deg);
-            }
-            60% {
-                transform: translateX(-49%) rotate(1deg);
-            }
-            75% {
-                transform: translateX(-50%) rotate(-0.5deg);
-            }
-        }
-        @keyframes lidPopOff {
-            0% {
-                transform: translateX(-50%) rotate(0deg) translateY(0);
-                opacity: 1;
-            }
-            40% {
-                transform: translateX(-50%) rotate(-10deg) translateY(-10px);
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(-50%) rotate(-25deg) translateY(-120px);
-                opacity: 0;
-            }
-        }
-        .gift-box.paper-out .gift-box-body {
-            animation: boxGlow 0.8s ease forwards;
-        }
-        @keyframes boxGlow {
-            0% {
-                box-shadow: 0 8px 30px rgba(120, 60, 60, 0.3);
-            }
-            50% {
-                box-shadow: 0 8px 50px rgba(220, 180, 100, 0.6), 0 0 60px rgba(255, 220, 150, 0.3);
-            }
-            100% {
-                box-shadow: 0 8px 30px rgba(120, 60, 60, 0.3), 0 0 40px rgba(255, 220, 150, 0.2);
-            }
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: transform 0.8s cubic-bezier(0.5, -0.5, 0.5, 1.5), opacity 0.8s ease;
         }
 
-        /* Gift particles */
-        .gift-particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particleFly 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .gift-lid .ribbon-v { width: 38px; }
+
+        .gift-box-container.open .gift-lid {
+            transform: translateY(-160px) rotate(-20deg) scale(0.8);
             opacity: 0;
-            z-index: 5;
-        }
-        @keyframes particleFly {
-            0% {
-                opacity: 0;
-                transform: translate(0, 0) scale(0);
-            }
-            20% {
-                opacity: 1;
-                transform: translate(0, -10px) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--px, 30px), var(--py, -120px)) scale(0.3);
-            }
         }
 
-        /* =========================
-           FINAL MESSAGE SCREEN
-        ========================= */
-        #final-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 1400;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(160deg, #faf6f1 0%, #f8e8e8 35%, #f0d8d8 70%, #f5e0e0 100%);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
-            padding: 30px;
+        .gift-hint {
+            color: var(--pink-soft);
+            font-family: var(--font-serif);
+            margin-top: 36px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .gift-card-result {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            width: 90%;
+            max-width: 480px;
+            background: #FFF9F0;
+            padding: 40px 32px;
+            border-radius: 12px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
             text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 190;
+            border: 2px solid var(--color-gold);
         }
-        #final-screen.active {
+
+        .gift-card-result.active {
             opacity: 1;
             pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
         }
-        .final-heart {
-            font-size: 3.5rem;
-            animation: heartbeat 1.2s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes heartbeat {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            15% {
-                transform: scale(1.2);
-            }
-            30% {
-                transform: scale(1);
-            }
-            45% {
-                transform: scale(1.1);
-            }
-            60% {
-                transform: scale(1);
-            }
-        }
-        .final-title {
-            font-family: var(--font-serif);
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            letter-spacing: 2px;
+
+        .gift-card-result h2 {
+            font-family: var(--font-handwriting);
+            font-size: 2.5rem;
+            color: var(--color-burgundy);
             margin-bottom: 16px;
-            line-height: 1.2;
         }
-        .final-message {
-            font-family: var(--font-hand);
-            font-size: 1.4rem;
-            color: var(--text-medium);
-            margin-bottom: 30px;
-            line-height: 1.6;
+
+        .gift-card-result p {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--color-primary);
+            white-space: pre-line;
+            margin-bottom: 28px;
         }
-        .final-btn {
-            padding: 16px 36px;
-            background: linear-gradient(160deg, #f0d5d5 0%, #e0b8b8 100%);
-            color: var(--text-dark);
-            font-size: 1.05rem;
-            font-weight: 600;
-            border-radius: 50px;
-            box-shadow: 0 6px 20px rgba(180, 120, 120, 0.25);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        .btn-restart {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid var(--color-primary);
+            border-radius: 25px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--color-primary);
             cursor: pointer;
-            border: 1px solid rgba(200, 150, 150, 0.4);
-            letter-spacing: 0.5px;
-        }
-        .final-btn:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 12px 30px rgba(180, 120, 120, 0.35);
-        }
-        .final-btn:active {
-            transform: scale(0.95);
+            transition: var(--transition-smooth);
         }
 
-        /* =========================
-           RESET CAMERA BUTTON
-        ========================= */
-        #reset-camera {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 800;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1.5px solid rgba(220, 180, 180, 0.4);
-            box-shadow: var(--shadow-soft);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--text-dark);
-        }
-        #reset-camera:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-medium);
-        }
-        #reset-camera:active {
-            transform: scale(0.9);
+        .btn-restart:hover {
+            background: var(--color-primary);
+            color: #FFF;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
-        @media (max-width: 768px) {
-            .password-container {
-                padding: 28px 20px;
-                max-width: 340px;
-                width: 92%;
-            }
-            .password-title {
-                font-size: 1.3rem;
-            }
-            .password-subtitle {
-                font-size: 1.05rem;
-                margin-bottom: 20px;
-            }
-            .keypad {
-                gap: 10px;
-                max-width: 260px;
-            }
-            .keypad button {
-                width: 60px;
-                height: 60px;
-                font-size: 1.2rem;
-            }
-            .password-dots {
-                gap: 14px;
-                margin-bottom: 24px;
-            }
-            .password-dots .dot {
-                width: 13px;
-                height: 13px;
-                border-width: 2px;
-            }
-            #sound-toggle {
-                top: 12px;
-                left: 12px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-            #letter-notification {
-                right: 16px;
-                top: 14px;
-            }
-            .letter-envelope-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-                border-radius: 12px;
-            }
-            .letter-badge {
-                width: 22px;
-                height: 22px;
-                font-size: 0.7rem;
-                top: -4px;
-                right: -4px;
-            }
-            .letter-tooltip {
-                font-size: 0.75rem;
-                padding: 8px 12px;
-                top: 58px;
-            }
-            #reset-camera {
-                bottom: 16px;
-                right: 16px;
-                width: 38px;
-                height: 38px;
-                font-size: 1rem;
-            }
-            .letter-paper {
-                padding: 28px 22px;
-            }
-            .letter-paper-title {
-                font-size: 1.6rem;
-            }
-            .gift-box {
-                width: 140px;
-                height: 140px;
-            }
-            .gift-box-body {
-                width: 110px;
-                height: 85px;
-            }
-            .gift-box-lid {
-                width: 126px;
-                height: 38px;
-                top: 14px;
-            }
-            .final-title {
-                font-size: 2rem;
-            }
-            .final-message {
-                font-size: 1.1rem;
-            }
-            .lightbox-content {
-                padding: 20px;
-            }
-        }
-        @media (max-width: 380px) {
-            .keypad button {
-                width: 52px;
-                height: 52px;
-                font-size: 1.05rem;
-            }
-            .keypad {
-                gap: 8px;
-                max-width: 220px;
-            }
-            .password-container {
-                padding: 20px 14px;
-            }
-            .letter-envelope-icon {
-                width: 44px;
-                height: 44px;
-                font-size: 1.3rem;
-            }
-        }
-
-        /* =========================
-           REDUCED MOTION
-        ========================= */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                transition-delay: 0ms !important;
-            }
-            .password-bg-shapes .shape,
-            .world-bg-shapes .blob,
-            .world-light-spot,
-            .world-dust-particle,
-            .letter-envelope-icon,
-            .letter-badge,
-            .final-heart,
-            .gift-box.animating .gift-box-body,
-            .gift-box.animating .gift-box-lid {
-                animation: none !important;
-            }
-            .memory-photo {
-                transition: transform 0.15s ease, box-shadow 0.15s ease;
-            }
-            .memory-photo:hover .memory-photo-inner {
-                transform: scale(1.03) !important;
-            }
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .polaroid { width: 190px; padding: 8px 8px 14px 8px; }
+            .polaroid-img-wrapper { height: 170px; }
+            .polaroid-title { font-size: 1.1rem; }
+            .full-paper { padding: 28px 20px; }
+            .paper-title { font-size: 1.8rem; }
+            .paper-body { font-size: 0.95rem; }
+            .floating-letter-btn { bottom: 20px; right: 20px; padding: 10px 18px; }
+            .drag-hint { bottom: 20px; left: 20px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- =========================
-         PASSWORD SCREEN
-    ========================= -->
-    <div id="password-screen" aria-label="Màn hình nhập mật khẩu">
-        <div class="password-bg-shapes" aria-hidden="true">
-            <div class="shape"></div>
-            <div class="shape"></div>
-            <div class="shape"></div>
-            <div class="shape"></div>
-        </div>
-        <div class="password-container">
-            <h1 class="password-title">✨ Một chút bí mật trước khi bắt đầu… ✨</h1>
-            <p class="password-subtitle">Nhập mật mã 4 số để mở khóa kỷ niệm</p>
-            <div class="password-dots" id="password-dots" aria-label="Mật khẩu 4 chữ số">
-                <span class="dot" data-index="0"></span>
-                <span class="dot" data-index="1"></span>
-                <span class="dot" data-index="2"></span>
-                <span class="dot" data-index="3"></span>
+    <!-- Ambient Dust Particles -->
+    <canvas id="particle-canvas"></canvas>
+    <div class="vignette"></div>
+
+    <!-- Fixed Audio Toggle UI -->
+    <button class="audio-toggle" id="audio-btn" aria-label="Toggle Sound">
+        <span id="audio-icon">🔇</span>
+    </button>
+
+    <!-- 1. LOCK SCREEN -->
+    <div class="screen" id="lock-screen">
+        <div class="lock-container">
+            <h1 class="lock-title">Một chút bí mật trước khi bắt đầu…</h1>
+            <p class="lock-subtitle">Nhập mật mã 4 số để mở không gian kỷ niệm</p>
+            
+            <div class="pin-dots" id="pin-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
-            <p class="password-error" id="password-error" aria-live="polite">Sai rồi... thử lại nhé ❤️</p>
-            <div class="keypad" id="keypad" role="grid" aria-label="Bàn phím số">
-                <button data-key="1" role="gridcell" aria-label="1">1</button>
-                <button data-key="2" role="gridcell" aria-label="2">2</button>
-                <button data-key="3" role="gridcell" aria-label="3">3</button>
-                <button data-key="4" role="gridcell" aria-label="4">4</button>
-                <button data-key="5" role="gridcell" aria-label="5">5</button>
-                <button data-key="6" role="gridcell" aria-label="6">6</button>
-                <button data-key="7" role="gridcell" aria-label="7">7</button>
-                <button data-key="8" role="gridcell" aria-label="8">8</button>
-                <button data-key="9" role="gridcell" aria-label="9">9</button>
-                <button data-key="backspace" class="keypad-backspace" role="gridcell" aria-label="Xóa">←</button>
-                <button data-key="0" role="gridcell" aria-label="0">0</button>
-                <button data-key="enter" class="keypad-enter" role="gridcell" aria-label="Xác nhận">✓</button>
+
+            <div class="keypad" id="keypad">
+                <button class="key" data-val="1">1</button>
+                <button class="key" data-val="2">2</button>
+                <button class="key" data-val="3">3</button>
+                <button class="key" data-val="4">4</button>
+                <button class="key" data-val="5">5</button>
+                <button class="key" data-val="6">6</button>
+                <button class="key" data-val="7">7</button>
+                <button class="key" data-val="8">8</button>
+                <button class="key" data-val="9">9</button>
+                <button class="key key-action" data-val="clear">←</button>
+                <button class="key" data-val="0">0</button>
+                <button class="key key-action" data-val="submit">✓</button>
+            </div>
+
+            <div class="error-message" id="error-msg"></div>
+        </div>
+    </div>
+
+    <!-- 2. MEMORY SPACE (PINK PARALLAX CANVAS & CAMERA) -->
+    <div id="memory-space">
+        <div class="world-container" id="world-container">
+            <!-- Parallax Background Pink Blobs & Shapes -->
+            <div class="bg-layer-parallax" id="parallax-layer">
+                <!-- Decorative pink blobs -->
+                <div class="pink-blob" style="width: 700px; height: 700px; background: #F8E8EE; top: 300px; left: 400px;"></div>
+                <div class="pink-blob" style="width: 900px; height: 900px; background: #F2D7D9; top: 1200px; left: 1800px;"></div>
+                <div class="pink-blob" style="width: 600px; height: 600px; background: #DDA8B3; top: 800px; left: 2600px;"></div>
+                <div class="pink-blob" style="width: 800px; height: 800px; background: #F8E8EE; top: 1800px; left: 600px;"></div>
+
+                <!-- Soft translucent pink cards -->
+                <div class="pink-card-decor" style="width: 320px; height: 420px; top: 400px; left: 1100px; transform: rotate(-6deg);"></div>
+                <div class="pink-card-decor" style="width: 400px; height: 300px; top: 1500px; left: 1200px; transform: rotate(8deg);"></div>
+                <div class="pink-card-decor" style="width: 350px; height: 450px; top: 900px; left: 2000px; transform: rotate(-4deg);"></div>
+            </div>
+
+            <!-- Photos rendered dynamically -->
+            <div id="photos-layer"></div>
+        </div>
+
+        <!-- Fixed Overlay UI -->
+        <div class="drag-hint">✨ Cuộn chuột để Zoom • Kéo để Di chuyển</div>
+        
+        <div class="floating-letter-btn" id="letter-btn">
+            <span class="icon">✉️</span>
+            <span>Có một lá thư dành cho bạn</span>
+        </div>
+    </div>
+
+    <!-- Polaroid Zoom Modal -->
+    <div class="modal-overlay" id="photo-modal">
+        <div class="modal-card">
+            <img id="modal-img" src="" alt="Memory photo">
+            <p id="modal-caption"></p>
+        </div>
+    </div>
+
+    <!-- 3. LETTER & ENVELOPE MODAL -->
+    <div class="letter-modal" id="letter-modal">
+        <div class="envelope-wrapper" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="paper-sheet"></div>
+            <div class="envelope-pocket"></div>
+        </div>
+
+        <div class="full-paper" id="full-paper">
+            <h2 class="paper-title" id="paper-title"></h2>
+            <div class="paper-body" id="paper-body"></div>
+            <div class="paper-signature" id="paper-signature"></div>
+            <button class="btn-open-gift" id="btn-to-gift">🎁 MỞ MÓN QUÀ CUỐI CÙNG</button>
+        </div>
+    </div>
+
+    <!-- 4. GIFT BOX MODAL -->
+    <div class="gift-modal" id="gift-modal">
+        <div class="gift-box-container" id="gift-box">
+            <div class="gift-lid">
+                <div class="ribbon-v"></div>
+            </div>
+            <div class="gift-body">
+                <div class="ribbon-v"></div>
+                <div class="ribbon-h"></div>
             </div>
         </div>
-    </div>
+        <div class="gift-hint" id="gift-hint">Chạm vào hộp quà để mở...</div>
 
-    <!-- =========================
-         SOUND TOGGLE
-    ========================= -->
-    <button id="sound-toggle" aria-label="Bật/tắt âm thanh" title="Âm thanh">🔊</button>
-
-    <!-- =========================
-         MEMORY SPACE
-    ========================= -->
-    <div id="memory-space" aria-label="Không gian kỷ niệm">
-        <div id="world-container">
-            <!-- Base layer -->
-            <div class="world-bg-layer world-bg-base"></div>
-            <!-- Decorative shapes -->
-            <div class="world-bg-shapes" aria-hidden="true">
-                <div class="blob"></div>
-                <div class="blob"></div>
-                <div class="blob"></div>
-                <div class="blob"></div>
-                <div class="blob"></div>
-                <div class="blob"></div>
-                <div class="blob"></div>
-                <div class="blob"></div>
-            </div>
-            <!-- Light spots -->
-            <div class="world-light-spot" aria-hidden="true"></div>
-            <div class="world-light-spot" aria-hidden="true"></div>
-            <div class="world-light-spot" aria-hidden="true"></div>
-            <div class="world-light-spot" aria-hidden="true"></div>
-            <!-- Photos will be dynamically inserted here -->
-            <div id="photos-container"></div>
-            <!-- Dust particles will be dynamically inserted here -->
-            <div id="dust-container"></div>
+        <div class="gift-card-result" id="gift-result">
+            <h2 id="gift-title"></h2>
+            <p id="gift-body"></p>
+            <button class="btn-restart" id="btn-restart">🔄 Xem lại kỷ niệm</button>
         </div>
     </div>
 
-    <!-- =========================
-         LETTER NOTIFICATION
-    ========================= -->
-    <div id="letter-notification" aria-label="Bạn có một lá thư" title="Bạn có một lá thư 💌" role="button" tabindex="0">
-        <div class="letter-envelope-icon">💌</div>
-        <div class="letter-badge">1</div>
-        <div class="letter-tooltip" id="letter-tooltip">Bạn có một lá thư 💌</div>
-    </div>
-
-    <!-- =========================
-         RESET CAMERA
-    ========================= -->
-    <button id="reset-camera" aria-label="Đặt lại vị trí camera" title="Reset camera">⟳</button>
-
-    <!-- =========================
-         PHOTO LIGHTBOX
-    ========================= -->
-    <div id="photo-lightbox" aria-label="Xem ảnh kỷ niệm">
-        <button class="lightbox-close" id="lightbox-close" aria-label="Đóng">✕</button>
-        <div class="lightbox-content">
-            <img id="lightbox-img" src="" alt="Kỷ niệm">
-            <h3 class="lightbox-title" id="lightbox-title"></h3>
-            <p class="lightbox-desc" id="lightbox-desc"></p>
-            <p class="lightbox-date" id="lightbox-date"></p>
-        </div>
-    </div>
-
-    <!-- =========================
-         LETTER MODAL
-    ========================= -->
-    <div id="letter-modal" aria-label="Lá thư">
-        <div class="letter-paper">
-            <h2 class="letter-paper-title" id="letter-title"></h2>
-            <div class="letter-paper-content" id="letter-content"></div>
-            <p class="letter-paper-signature" id="letter-signature"></p>
-            <button class="letter-gift-btn" id="letter-gift-btn">🎁 MỞ QUÀ</button>
-        </div>
-    </div>
-
-    <!-- =========================
-         GIFT MODAL
-    ========================= -->
-    <div id="gift-modal" aria-label="Hộp quà">
-        <div class="gift-box-container" id="gift-box-container" role="button" tabindex="0" aria-label="Mở hộp quà">
-            <div class="gift-box" id="gift-box">
-                <div class="gift-box-ribbon-v"></div>
-                <div class="gift-box-body"></div>
-                <div class="gift-box-lid"></div>
-            </div>
-            <p style="font-family: var(--font-hand); color: var(--cream); font-size: 1.1rem; margin-top: 16px; opacity: 0.9;">Nhấn để mở quà ✨</p>
-        </div>
-    </div>
-
-    <!-- =========================
-         FINAL SCREEN
-    ========================= -->
-    <div id="final-screen" aria-label="Lời nhắn cuối cùng">
-        <div class="final-heart">❤️</div>
-        <h1 class="final-title">HAPPY BIRTHDAY</h1>
-        <p class="final-message">Cảm ơn vì đã xuất hiện<br>trong những kỷ niệm đẹp này.</p>
-        <button class="final-btn" id="final-btn">Xem lại kỷ niệm</button>
-    </div>
-
+    <!-- ==========================================
+       JAVASCRIPT ENGINE & CAMERA LOGIC
+       ========================================== -->
     <script>
-        /* ================================
-           WEBSITE CONFIG
-        ================================ */
-        const PASSWORD = "1234";
-        const MUSIC_URL = ""; // Đặt đường dẫn nhạc nền tại đây, ví dụ: "birthday.mp3"
+        /* ==========================================
+           CONFIG & DATA MANAGEMENT
+           ========================================== */
+        const CONFIG = {
+            PASSWORD: "1234",
+            
+            CAMERA: {
+                minZoom: 0.35,
+                maxZoom: 2.2,
+                zoomSpeed: 0.0015, // Smooth wheel sensitivity
+                friction: 0.08      // Smooth spring interpolation
+            },
 
-        const MEMORIES = [{
-            image: "https://picsum.photos/seed/memory01/400/300",
-            title: "Kỷ niệm đầu tiên",
-            date: "01/01/2025",
-            description: "Một ngày rất đáng nhớ, nơi mọi thứ bắt đầu.",
-            x: 600,
-            y: 500,
-            rotation: -4,
-            width: 260
-        }, {
-            image: "https://picsum.photos/seed/memory02/400/300",
-            title: "Một ngày đáng nhớ",
-            date: "15/02/2025",
-            description: "Một kỷ niệm mà mình luôn nhớ về.",
-            x: 1500,
-            y: 350,
-            rotation: 3,
-            width: 280
-        }, {
-            image: "https://picsum.photos/seed/memory03/400/300",
-            title: "Buổi chiều yên bình",
-            date: "22/03/2025",
-            description: "Ánh nắng vàng và nụ cười của cậu.",
-            x: 1000,
-            y: 900,
-            rotation: -2,
-            width: 240
-        }, {
-            image: "https://picsum.photos/seed/memory04/400/300",
-            title: "Chuyến đi xa",
-            date: "10/04/2025",
-            description: "Cùng nhau khám phá những điều mới.",
-            x: 2200,
-            y: 700,
-            rotation: 5,
-            width: 270
-        }, {
-            image: "https://picsum.photos/seed/memory05/400/300",
-            title: "Buổi tối ấm áp",
-            date: "05/05/2025",
-            description: "Những câu chuyện không bao giờ kết thúc.",
-            x: 800,
-            y: 1300,
-            rotation: -5,
-            width: 250
-        }, {
-            image: "https://picsum.photos/seed/memory06/400/300",
-            title: "Nụ cười tỏa nắng",
-            date: "18/06/2025",
-            description: "Chỉ cần thấy cậu cười là đủ rồi.",
-            x: 1800,
-            y: 1200,
-            rotation: 2,
-            width: 260
-        }, {
-            image: "https://picsum.photos/seed/memory07/400/300",
-            title: "Khoảnh khắc bình yên",
-            date: "30/07/2025",
-            description: "Thế giới như chậm lại khi ở cạnh cậu.",
-            x: 3000,
-            y: 900,
-            rotation: -3,
-            width: 250
-        }, {
-            image: "https://picsum.photos/seed/memory08/400/300",
-            title: "Ngày đặc biệt",
-            date: "12/08/2025",
-            description: "Một ngày mà mình sẽ không bao giờ quên.",
-            x: 1200,
-            y: 1700,
-            rotation: 4,
-            width: 270
-        }, {
-            image: "https://picsum.photos/seed/memory09/400/300",
-            title: "Cùng nhau",
-            date: "25/09/2025",
-            description: "Dù đi đâu, chỉ cần có cậu là đủ.",
-            x: 2600,
-            y: 1600,
-            rotation: -4,
-            width: 240
-        }, {
-            image: "https://picsum.photos/seed/memory10/400/300",
-            title: "Lời hứa",
-            date: "08/10/2025",
-            description: "Những lời hứa sẽ luôn được giữ gìn.",
-            x: 1900,
-            y: 2100,
-            rotation: 3,
-            width: 260
-        }, {
-            image: "https://picsum.photos/seed/memory11/400/300",
-            title: "Hạnh phúc giản đơn",
-            date: "20/11/2025",
-            description: "Những điều nhỏ bé làm nên hạnh phúc lớn lao.",
-            x: 500,
-            y: 2100,
-            rotation: -2,
-            width: 250
-        }, {
-            image: "https://picsum.photos/seed/memory12/400/300",
-            title: "Vì cậu là chính cậu",
-            date: "01/12/2025",
-            description: "Cảm ơn vì đã luôn là chính mình.",
-            x: 3200,
-            y: 2100,
-            rotation: 4,
-            width: 270
-        }];
-
-        const LETTER_DATA = {
-            title: "Gửi cậu,",
-            content: `Có những kỷ niệm tưởng như rất bình thường,
-        nhưng sau này nhìn lại mới nhận ra
-        đó lại là những điều mình nhớ nhất.
-
-        Cảm ơn cậu đã xuất hiện,
-        đã cùng mình tạo nên những khoảnh khắc
-        mà bây giờ trở thành kỷ niệm đẹp nhất.
-
-        Chúc cậu có một ngày sinh nhật
-        thật hạnh phúc và ấm áp.`,
-            signature: "❤️"
-        };
-
-        const GIFT_DATA = {
-            title: "Món quà cuối cùng",
-            content: `Nếu cậu đang đọc đến đây...
-
-        thì có lẽ cậu đã đi qua
-        tất cả những kỷ niệm mà mình muốn
-        cậu nhìn thấy.
-
-        Cảm ơn cậu vì tất cả.
-        Happy Birthday ❤️`,
-            signature: "Happy Birthday ❤️"
-        };
-
-        const CAMERA_CONFIG = {
-            minZoom: 0.35,
-            maxZoom: 2.5,
-            zoomSpeed: 0.08,
-            panResistance: 0.25,
-            worldWidth: 4000,
-            worldHeight: 3000
-        };
-
-        const SOUND_CONFIG = {
-            click: true,
-            envelope: true,
-            paper: true,
-            gift: true,
-            sparkle: true
-        };
-
-        /* ================================
-           STATE
-        ================================ */
-        let passwordInput = "";
-        let isUnlocked = false;
-        let isLetterOpened = false;
-        let isGiftOpened = false;
-        let isMusicPlaying = false;
-        let isMusicMuted = false;
-        let audioCtx = null;
-        let backgroundMusic = null;
-        let ambientMusicNodes = null;
-        let ambientMusicTimer = null;
-
-        // Camera state
-        let camera = {
-            x: 0,
-            y: 0,
-            targetX: 0,
-            targetY: 0,
-            zoom: 1,
-            targetZoom: 1,
-            minX: 0,
-            maxX: 0,
-            minY: 0,
-            maxY: 0
-        };
-
-        // Input state
-        let isDragging = false;
-        let dragStartX = 0;
-        let dragStartY = 0;
-        let dragCameraX = 0;
-        let dragCameraY = 0;
-        let lastPinchDist = 0;
-        let pinchStartZoom = 1;
-        let pinchStartCameraX = 0;
-        let pinchStartCameraY = 0;
-        let pinchMidX = 0;
-        let pinchMidY = 0;
-        let animationFrameId = null;
-        let tooltipTimeout = null;
-
-        /* ================================
-           DOM REFERENCES
-        ================================ */
-        const passwordScreen = document.getElementById('password-screen');
-        const passwordDots = document.getElementById('password-dots');
-        const passwordError = document.getElementById('password-error');
-        const keypad = document.getElementById('keypad');
-        const memorySpace = document.getElementById('memory-space');
-        const worldContainer = document.getElementById('world-container');
-        const photosContainer = document.getElementById('photos-container');
-        const dustContainer = document.getElementById('dust-container');
-        const soundToggle = document.getElementById('sound-toggle');
-        const letterNotification = document.getElementById('letter-notification');
-        const letterTooltip = document.getElementById('letter-tooltip');
-        const resetCameraBtn = document.getElementById('reset-camera');
-        const photoLightbox = document.getElementById('photo-lightbox');
-        const lightboxClose = document.getElementById('lightbox-close');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxTitle = document.getElementById('lightbox-title');
-        const lightboxDesc = document.getElementById('lightbox-desc');
-        const lightboxDate = document.getElementById('lightbox-date');
-        const letterModal = document.getElementById('letter-modal');
-        const letterTitle = document.getElementById('letter-title');
-        const letterContent = document.getElementById('letter-content');
-        const letterSignature = document.getElementById('letter-signature');
-        const letterGiftBtn = document.getElementById('letter-gift-btn');
-        const giftModal = document.getElementById('gift-modal');
-        const giftBoxContainer = document.getElementById('gift-box-container');
-        const giftBox = document.getElementById('gift-box');
-        const finalScreen = document.getElementById('final-screen');
-        const finalBtn = document.getElementById('final-btn');
-
-        /* ================================
-           AUDIO ENGINE (Web Audio API)
-        ================================ */
-        function initAudio() {
-            if (audioCtx) return;
-            try {
-                audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-            } catch (e) {
-                console.warn('Web Audio API not supported');
-            }
-        }
-
-        function playClickSound() {
-            if (!audioCtx || isMusicMuted) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.09);
-            } catch (e) { /* silent */ }
-        }
-
-        function playEnvelopeSound() {
-            if (!audioCtx || isMusicMuted) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
-                filter.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.3);
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(250, audioCtx.currentTime + 0.3);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.4);
-            } catch (e) { /* silent */ }
-        }
-
-        function playPaperSound() {
-            if (!audioCtx || isMusicMuted) return;
-            try {
-                const bufferSize = audioCtx.sampleRate * 0.3;
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = (Math.random() * 2 - 1) * 0.06 * (1 - i / bufferSize);
+            MEMORIES: [
+                {
+                    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80",
+                    title: "Chuyến đi đầu tiên",
+                    date: "12 / 10 / 2023",
+                    description: "Bình minh hôm ấy thật đẹp, nhưng nụ cười của cậu còn rạng rỡ hơn.",
+                    x: 600, y: 500, rot: -4
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80",
+                    title: "Một buổi chiều hoàng hôn",
+                    date: "05 / 01 / 2024",
+                    description: "Tách cà phê ấm và những câu chuyện không bao giờ hồi kết.",
+                    x: 1400, y: 450, rot: 5
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80",
+                    title: "Góc phố quen thuộc",
+                    date: "18 / 03 / 2024",
+                    description: "Nơi chúng ta đã dừng chân trốn một cơn mưa rào bất chợt.",
+                    x: 2200, y: 600, rot: -3
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80",
+                    title: "Đêm tiệc rực rỡ",
+                    date: "25 / 06 / 2024",
+                    description: "Ánh đèn lung linh và ngập tràn tiếng cười của mọi người.",
+                    x: 900, y: 1300, rot: 6
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+                    title: "Nụ cười rạng rỡ",
+                    date: "14 / 08 / 2024",
+                    description: "Khoảnh khắc giản dị nhưng khiến tớ nhớ mãi.",
+                    x: 1700, y: 1200, rot: -5
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80",
+                    title: "Kỷ niệm ngày mưa",
+                    date: "30 / 11 / 2024",
+                    description: "Mưa rơi ngoài cửa kính, bên trong là những giai điệu êm đềm.",
+                    x: 2500, y: 1400, rot: 3
+                },
+                {
+                    image: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=600&q=80",
+                    title: "Ngày đầu năm mới",
+                    date: "01 / 01 / 2025",
+                    description: "Cùng nhìn lại một hành trình tuyệt đẹp đã qua.",
+                    x: 1300, y: 1900, rot: -2
                 }
-                const source = audioCtx.createBufferSource();
-                source.buffer = buffer;
-                const gain = audioCtx.createGain();
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                source.connect(gain);
-                gain.connect(audioCtx.destination);
-                source.start(audioCtx.currentTime);
-            } catch (e) { /* silent */ }
-        }
+            ],
 
-        function playGiftSound() {
-            if (!audioCtx || isMusicMuted) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.15);
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.25);
-            } catch (e) { /* silent */ }
-        }
+            LETTER: {
+                title: "Gửi cậu,",
+                content: `Có những kỷ niệm tưởng chừng như rất bình thường, nhưng khi thời gian trôi qua, nhìn lại mới nhận ra đó lại là những khoảnh khắc quý giá nhất.
 
-        function playSparkleSound() {
-            if (!audioCtx || isMusicMuted) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(2000, audioCtx.currentTime + 0.4);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.5);
-            } catch (e) { /* silent */ }
-        }
+Cảm ơn cậu vì đã luôn xuất hiện, mang đến sự ấm áp và vô vàn niềm vui trong suốt chặng đường qua.
 
-        function startAmbientMusic() {
-            if (!audioCtx) initAudio();
-            if (!audioCtx || ambientMusicNodes) return;
-            try {
-                const masterGain = audioCtx.createGain();
-                masterGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-                masterGain.connect(audioCtx.destination);
+Chúc cậu có một sinh nhật thật bình yên, rạng rỡ và luôn tràn đầy hạnh phúc. Mong rằng tuổi mới sẽ mang đến cho cậu tất cả những điều tuyệt vời nhất mà cậu hoài mong.`,
+                signature: "Thân ái, ❤️"
+            },
 
-                const chordProgressions = [
-                    [261.63, 329.63, 392.00], // C major
-                    [293.66, 349.23, 440.00], // D minor
-                    [220.00, 277.18, 329.63], // A minor
-                    [246.94, 293.66, 369.99] // B diminished (or G major)
-                ];
-                let chordIndex = 0;
+            GIFT: {
+                title: "MÓN QUÀ CUỐI CÙNG 🎁",
+                content: `Nếu cậu đã đi đến tận đây, có lẽ cậu đã đi qua hết tất cả những góc kỷ niệm mà tớ đã cẩn thận lưu giữ.
 
-                function playChord() {
-                    if (isMusicMuted || !audioCtx) {
-                        ambientMusicNodes = null;
-                        return;
-                    }
-                    const chord = chordProgressions[chordIndex % chordProgressions.length];
-                    chordIndex++;
-                    chord.forEach((freq, i) => {
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        const filter = audioCtx.createBiquadFilter();
-                        filter.type = 'lowpass';
-                        filter.frequency.setValueAtTime(1200 + i * 200, audioCtx.currentTime);
-                        osc.type = i === 0 ? 'sine' : 'triangle';
-                        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                        osc.frequency.detune.setValueAtTime(i * 3, audioCtx.currentTime);
-                        gain.gain.setValueAtTime(0, audioCtx.currentTime);
-                        gain.gain.linearRampToValueAtTime(0.08 + (1 - i) * 0.03, audioCtx.currentTime + 0.5);
-                        gain.gain.linearRampToValueAtTime(0.005, audioCtx.currentTime + 3.8);
-                        osc.connect(filter);
-                        filter.connect(gain);
-                        gain.connect(masterGain);
-                        osc.start(audioCtx.currentTime);
-                        osc.stop(audioCtx.currentTime + 4);
-                    });
-                    if (chordIndex >= 8) chordIndex = 0;
-                    ambientMusicTimer = setTimeout(playChord, 3500);
+Món quà lớn nhất không nằm trong hộp quà này, mà chính là tình cảm và những kỷ niệm đẹp đẽ mà chúng ta đã cùng nhau tạo nên.
+
+Happy Birthday! 🎈✨`
+            }
+        };
+
+        /* ==========================================
+           AUDIO SYNTHESIZER
+           ========================================== */
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
                 }
-
-                playChord();
-                ambientMusicNodes = masterGain;
-                isMusicPlaying = true;
-            } catch (e) {
-                console.warn('Cannot play ambient music', e);
-                ambientMusicNodes = null;
             }
-        }
 
-        function stopAmbientMusic() {
-            if (ambientMusicTimer) {
-                clearTimeout(ambientMusicTimer);
-                ambientMusicTimer = null;
+            playClick() {
+                if (this.muted) return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.05);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.05);
             }
-            if (ambientMusicNodes) {
-                try {
-                    ambientMusicNodes.disconnect();
-                } catch (e) { /* silent */ }
-                ambientMusicNodes = null;
-            }
-            isMusicPlaying = false;
-        }
 
-        function playBackgroundMusic() {
-            if (isMusicMuted) return;
-            if (MUSIC_URL && MUSIC_URL.trim() !== '') {
-                if (!backgroundMusic) {
-                    backgroundMusic = new Audio(MUSIC_URL);
-                    backgroundMusic.loop = true;
-                    backgroundMusic.volume = 0.35;
-                }
-                backgroundMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    soundToggle.textContent = '🔊';
-                }).catch(() => {
-                    // Fallback to ambient music
-                    startAmbientMusic();
+            playSuccess() {
+                if (this.muted) return;
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
+                    gain.gain.setValueAtTime(0.06, this.ctx.currentTime + idx * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.3);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + idx * 0.08);
+                    osc.stop(this.ctx.currentTime + idx * 0.08 + 0.3);
                 });
-            } else {
-                startAmbientMusic();
+            }
+
+            playError() {
+                if (this.muted) return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+                osc.frequency.setValueAtTime(140, this.ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.25);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.25);
             }
         }
 
-        function toggleMusic() {
-            isMusicMuted = !isMusicMuted;
-            if (isMusicMuted) {
-                soundToggle.textContent = '🔇';
-                if (backgroundMusic) backgroundMusic.pause();
-                stopAmbientMusic();
-                isMusicPlaying = false;
-            } else {
-                soundToggle.textContent = '🔊';
-                if (backgroundMusic) {
-                    backgroundMusic.play().catch(() => startAmbientMusic());
-                } else {
-                    playBackgroundMusic();
-                }
-            }
-        }
+        const sound = new SoundEngine();
+        const audioBtn = document.getElementById('audio-btn');
+        const audioIcon = document.getElementById('audio-icon');
 
-        soundToggle.addEventListener('click', () => {
-            initAudio();
-            toggleMusic();
+        audioBtn.addEventListener('click', () => {
+            sound.muted = !sound.muted;
+            audioIcon.textContent = sound.muted ? '🔇' : '🔊';
+            if (!sound.muted) { sound.init(); sound.playClick(); }
         });
 
-        /* ================================
-           PASSWORD SYSTEM
-        ================================ */
-        function updatePasswordDots() {
-            const dots = passwordDots.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('filled', index < passwordInput.length);
+        /* ==========================================
+           PARTICLE DUST CANVAS
+           ========================================== */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = -Math.random() * 0.3 - 0.1;
+                this.alpha = Math.random() * 0.4 + 0.2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                    this.reset();
+                    this.y = canvas.height;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(221, 168, 179, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < 45; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* ==========================================
+           LOCK SCREEN LOGIC
+           ========================================== */
+        let currentPin = "";
+        const pinDots = document.querySelectorAll('#pin-dots .dot');
+        const lockScreen = document.getElementById('lock-screen');
+        const errorMsg = document.getElementById('error-msg');
+        const keypad = document.getElementById('keypad');
+
+        function updateDots() {
+            pinDots.forEach((dot, idx) => {
+                if (idx < currentPin.length) dot.classList.add('filled');
+                else dot.classList.remove('filled');
             });
         }
 
-        function showPasswordError() {
-            passwordError.classList.add('show');
-            passwordDots.classList.add('shake');
-            setTimeout(() => {
-                passwordDots.classList.remove('shake');
-            }, 500);
-            setTimeout(() => {
-                passwordError.classList.remove('show');
-            }, 2000);
+        function handleInput(val) {
+            sound.playClick();
+            errorMsg.style.opacity = '0';
+
+            if (val === 'clear') {
+                currentPin = currentPin.slice(0, -1);
+            } else if (val === 'submit') {
+                verifyPin();
+                return;
+            } else if (currentPin.length < 4 && !isNaN(val)) {
+                currentPin += val;
+            }
+
+            updateDots();
+            if (currentPin.length === 4) setTimeout(verifyPin, 150);
         }
 
-        function handlePasswordSuccess() {
-            const enterBtn = keypad.querySelector('[data-key="enter"]');
-            if (enterBtn) enterBtn.classList.add('success-flash');
-            setTimeout(() => {
-                if (enterBtn) enterBtn.classList.remove('success-flash');
-            }, 600);
-            setTimeout(() => {
-                unlockMemorySpace();
-            }, 500);
-        }
-
-        function handlePasswordKey(key) {
-            if (key === 'backspace') {
-                passwordInput = passwordInput.slice(0, -1);
-                updatePasswordDots();
-                playClickSound();
-                return;
-            }
-            if (key === 'enter') {
-                if (passwordInput.length === 4) {
-                    if (passwordInput === PASSWORD) {
-                        handlePasswordSuccess();
-                    } else {
-                        passwordInput = "";
-                        updatePasswordDots();
-                        showPasswordError();
-                        playClickSound();
-                    }
-                }
-                return;
-            }
-            if (/^[0-9]$/.test(key) && passwordInput.length < 4) {
-                passwordInput += key;
-                updatePasswordDots();
-                playClickSound();
-                if (passwordInput.length === 4) {
-                    setTimeout(() => {
-                        if (passwordInput === PASSWORD) {
-                            handlePasswordSuccess();
-                        } else {
-                            passwordInput = "";
-                            updatePasswordDots();
-                            showPasswordError();
-                        }
-                    }, 150);
-                }
+        function verifyPin() {
+            if (currentPin === CONFIG.PASSWORD) {
+                sound.playSuccess();
+                lockScreen.classList.add('hidden');
+                setTimeout(() => { initMemorySpace(); }, 600);
+            } else {
+                sound.playError();
+                const container = document.querySelector('.lock-container');
+                container.classList.add('shake');
+                errorMsg.textContent = "Sai rồi... thử lại nhé ❤️";
+                errorMsg.style.opacity = '1';
+                currentPin = "";
+                updateDots();
+                setTimeout(() => { container.classList.remove('shake'); }, 400);
             }
         }
 
         keypad.addEventListener('click', (e) => {
             const btn = e.target.closest('button');
             if (!btn) return;
-            const key = btn.dataset.key;
-            handlePasswordKey(key);
+            handleInput(btn.dataset.val);
         });
 
-        document.addEventListener('keydown', (e) => {
-            if (!isUnlocked && passwordScreen && !passwordScreen.classList.contains('hidden')) {
-                if (e.key >= '0' && e.key <= '9') {
-                    handlePasswordKey(e.key);
-                } else if (e.key === 'Backspace') {
-                    e.preventDefault();
-                    handlePasswordKey('backspace');
-                } else if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handlePasswordKey('enter');
-                }
-            }
-            if (e.key === 'Escape') {
-                if (photoLightbox.classList.contains('active')) {
-                    closeLightbox();
-                } else if (letterModal.classList.contains('active') && !giftModal.classList.contains('active')) {
-                    closeLetterModal();
-                } else if (giftModal.classList.contains('active')) {
-                    closeGiftModal();
-                } else if (finalScreen.classList.contains('active')) {
-                    closeFinalScreen();
-                }
-            }
+        window.addEventListener('keydown', (e) => {
+            if (lockScreen.classList.contains('hidden')) return;
+            if (e.key >= '0' && e.key <= '9') handleInput(e.key);
+            if (e.key === 'Backspace') handleInput('clear');
+            if (e.key === 'Enter') handleInput('submit');
         });
 
-        function unlockMemorySpace() {
-            isUnlocked = true;
-            passwordScreen.classList.add('hidden');
-            memorySpace.classList.remove('hidden');
-            setTimeout(() => {
-                passwordScreen.style.display = 'none';
-            }, 800);
-            initAudio();
-            playBackgroundMusic();
-            showLetterTooltip();
-            initCameraPosition();
-            startCameraLoop();
-        }
+        /* ==========================================
+           ADVANCED CAMERA (ZOOM TO CURSOR + PAN ENGINE)
+           ========================================== */
+        const memorySpace = document.getElementById('memory-space');
+        const world = document.getElementById('world-container');
+        const photosLayer = document.getElementById('photos-layer');
+        const parallaxLayer = document.getElementById('parallax-layer');
 
-        /* ================================
-           CAMERA SYSTEM
-        ================================ */
-        function getViewportSize() {
-            return {
-                width: window.innerWidth,
-                height: window.innerHeight
-            };
-        }
+        let camera = {
+            x: -800,
+            y: -500,
+            zoom: 0.8,
+            targetX: -800,
+            targetY: -500,
+            targetZoom: 0.8
+        };
 
-        function calculateCameraBounds() {
-            const vp = getViewportSize();
-            const w = CAMERA_CONFIG.worldWidth * camera.zoom;
-            const h = CAMERA_CONFIG.worldHeight * camera.zoom;
-            if (w <= vp.width) {
-                const centerX = (vp.width - w) / 2;
-                camera.minX = centerX;
-                camera.maxX = centerX;
-            } else {
-                camera.minX = vp.width - w;
-                camera.maxX = 0;
-            }
-            if (h <= vp.height) {
-                const centerY = (vp.height - h) / 2;
-                camera.minY = centerY;
-                camera.maxY = centerY;
-            } else {
-                camera.minY = vp.height - h;
-                camera.maxY = 0;
-            }
-        }
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let activePointers = new Map();
+        let initialPinchDist = null;
+        let initialPinchZoom = 1;
 
-        function initCameraPosition() {
-            const vp = getViewportSize();
-            const w = CAMERA_CONFIG.worldWidth;
-            const h = CAMERA_CONFIG.worldHeight;
-            camera.x = camera.targetX = (vp.width - w) / 2;
-            camera.y = camera.targetY = (vp.height - h) / 2;
-            camera.zoom = camera.targetZoom = Math.max(CAMERA_CONFIG.minZoom,
-                Math.min(CAMERA_CONFIG.maxZoom, Math.min(vp.width / w, vp.height / h) * 1.2));
-            calculateCameraBounds();
-            applyCameraTransform(true);
-        }
+        function renderPolaroids() {
+            photosLayer.innerHTML = "";
+            CONFIG.MEMORIES.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'polaroid';
+                card.style.left = `${item.x}px`;
+                card.style.top = `${item.y}px`;
+                card.style.transform = `rotate(${item.rot}deg)`;
+                card.style.zIndex = Math.floor(Math.random() * 20) + 10;
 
-        function applyCameraTransform(immediate) {
-            if (immediate) {
-                worldContainer.style.transform = `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.zoom})`;
-            } else {
-                worldContainer.style.transform = `translate3d(${camera.targetX}px, ${camera.targetY}px, 0) scale(${camera.targetZoom})`;
-            }
-        }
+                card.innerHTML = `
+                    <div class="polaroid-img-wrapper">
+                        <img src="${item.image}" alt="${item.title}" loading="lazy">
+                    </div>
+                    <div class="polaroid-caption">
+                        <div class="polaroid-title">${item.title}</div>
+                        <div class="polaroid-date">${item.date}</div>
+                    </div>
+                `;
 
-        function clampCamera() {
-            calculateCameraBounds();
-            const resistance = CAMERA_CONFIG.panResistance;
-            if (camera.targetX > camera.maxX) {
-                camera.targetX = camera.maxX + (camera.targetX - camera.maxX) * resistance;
-            } else if (camera.targetX < camera.minX) {
-                camera.targetX = camera.minX - (camera.minX - camera.targetX) * resistance;
-            }
-            if (camera.targetY > camera.maxY) {
-                camera.targetY = camera.maxY + (camera.targetY - camera.maxY) * resistance;
-            } else if (camera.targetY < camera.minY) {
-                camera.targetY = camera.minY - (camera.minY - camera.targetY) * resistance;
-            }
-        }
-
-        function startCameraLoop() {
-            if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
-            function loop() {
-                const lerpFactor = 0.15;
-                camera.x += (camera.targetX - camera.x) * lerpFactor;
-                camera.y += (camera.targetY - camera.y) * lerpFactor;
-                camera.zoom += (camera.targetZoom - camera.zoom) * lerpFactor;
-
-                if (Math.abs(camera.targetX - camera.x) < 0.05 &&
-                    Math.abs(camera.targetY - camera.y) < 0.05 &&
-                    Math.abs(camera.targetZoom - camera.zoom) < 0.001) {
-                    camera.x = camera.targetX;
-                    camera.y = camera.targetY;
-                    camera.zoom = camera.targetZoom;
-                }
-
-                worldContainer.style.transform =
-                    `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.zoom})`;
-
-                animationFrameId = requestAnimationFrame(loop);
-            }
-            animationFrameId = requestAnimationFrame(loop);
-        }
-
-        function resetCamera() {
-            const vp = getViewportSize();
-            const w = CAMERA_CONFIG.worldWidth;
-            const h = CAMERA_CONFIG.worldHeight;
-            camera.targetX = (vp.width - w) / 2;
-            camera.targetY = (vp.height - h) / 2;
-            camera.targetZoom = Math.max(CAMERA_CONFIG.minZoom,
-                Math.min(CAMERA_CONFIG.maxZoom, Math.min(vp.width / w, vp.height / h) * 1.2));
-            calculateCameraBounds();
-        }
-
-        resetCameraBtn.addEventListener('click', resetCamera);
-
-        /* ================================
-           PAN — MOUSE
-        ================================ */
-        memorySpace.addEventListener('mousedown', (e) => {
-            if (e.target.closest('.memory-photo') || e.target.closest('#letter-notification') ||
-                e.target.closest('.letter-tooltip') || e.target.closest('#reset-camera')) return;
-            if (!isUnlocked) return;
-            isDragging = true;
-            dragStartX = e.clientX;
-            dragStartY = e.clientY;
-            dragCameraX = camera.targetX;
-            dragCameraY = camera.targetY;
-            memorySpace.classList.add('dragging');
-            e.preventDefault();
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const dx = e.clientX - dragStartX;
-            const dy = e.clientY - dragStartY;
-            camera.targetX = dragCameraX + dx;
-            camera.targetY = dragCameraY + dy;
-            clampCamera();
-        });
-
-        window.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-                memorySpace.classList.remove('dragging');
-            }
-        });
-
-        /* ================================
-           ZOOM — MOUSE WHEEL
-        ================================ */
-        memorySpace.addEventListener('wheel', (e) => {
-            if (!isUnlocked) return;
-            e.preventDefault();
-            const vp = getViewportSize();
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            const worldX = (mouseX - camera.x) / camera.zoom;
-            const worldY = (mouseY - camera.y) / camera.zoom;
-            const delta = e.deltaY > 0 ? -1 : 1;
-            const newZoom = Math.max(CAMERA_CONFIG.minZoom,
-                Math.min(CAMERA_CONFIG.maxZoom,
-                    camera.targetZoom * (1 + delta * CAMERA_CONFIG.zoomSpeed)));
-            const newX = mouseX - worldX * newZoom;
-            const newY = mouseY - worldY * newZoom;
-            camera.targetZoom = newZoom;
-            camera.targetX = newX;
-            camera.targetY = newY;
-            clampCamera();
-        }, { passive: false });
-
-        /* ================================
-           TOUCH — PAN & PINCH ZOOM
-        ================================ */
-        let touches = [];
-
-        memorySpace.addEventListener('touchstart', (e) => {
-            if (!isUnlocked) return;
-            if (e.target.closest('.memory-photo') || e.target.closest('#letter-notification') ||
-                e.target.closest('#reset-camera')) return;
-            touches = Array.from(e.touches);
-            if (touches.length === 1) {
-                isDragging = true;
-                dragStartX = touches[0].clientX;
-                dragStartY = touches[0].clientY;
-                dragCameraX = camera.targetX;
-                dragCameraY = camera.targetY;
-                memorySpace.classList.add('dragging');
-            } else if (touches.length === 2) {
-                isDragging = false;
-                memorySpace.classList.remove('dragging');
-                lastPinchDist = Math.hypot(
-                    touches[1].clientX - touches[0].clientX,
-                    touches[1].clientY - touches[0].clientY
-                );
-                pinchStartZoom = camera.targetZoom;
-                pinchStartCameraX = camera.targetX;
-                pinchStartCameraY = camera.targetY;
-                pinchMidX = (touches[0].clientX + touches[1].clientX) / 2;
-                pinchMidY = (touches[0].clientY + touches[1].clientY) / 2;
-            }
-            e.preventDefault();
-        }, { passive: false });
-
-        memorySpace.addEventListener('touchmove', (e) => {
-            if (!isUnlocked) return;
-            e.preventDefault();
-            touches = Array.from(e.touches);
-            if (touches.length === 1 && isDragging) {
-                const dx = touches[0].clientX - dragStartX;
-                const dy = touches[0].clientY - dragStartY;
-                camera.targetX = dragCameraX + dx;
-                camera.targetY = dragCameraY + dy;
-                clampCamera();
-            } else if (touches.length === 2) {
-                const dist = Math.hypot(
-                    touches[1].clientX - touches[0].clientX,
-                    touches[1].clientY - touches[0].clientY
-                );
-                const scale = dist / lastPinchDist;
-                const newZoom = Math.max(CAMERA_CONFIG.minZoom,
-                    Math.min(CAMERA_CONFIG.maxZoom, pinchStartZoom * scale));
-                const midX = (touches[0].clientX + touches[1].clientX) / 2;
-                const midY = (touches[0].clientY + touches[1].clientY) / 2;
-                const worldX = (pinchMidX - pinchStartCameraX) / pinchStartZoom;
-                const worldY = (pinchMidY - pinchStartCameraY) / pinchStartZoom;
-                camera.targetZoom = newZoom;
-                camera.targetX = midX - worldX * newZoom;
-                camera.targetY = midY - worldY * newZoom;
-                clampCamera();
-            }
-        }, { passive: false });
-
-        memorySpace.addEventListener('touchend', (e) => {
-            if (!isUnlocked) return;
-            touches = Array.from(e.touches);
-            if (touches.length === 0) {
-                isDragging = false;
-                memorySpace.classList.remove('dragging');
-            } else if (touches.length === 1 && isDragging) {
-                dragStartX = touches[0].clientX;
-                dragStartY = touches[0].clientY;
-                dragCameraX = camera.targetX;
-                dragCameraY = camera.targetY;
-            }
-        });
-
-        /* ================================
-           MEMORIES / PHOTOS
-        ================================ */
-        function createMemoryPhotos() {
-            MEMORIES.forEach((memory, index) => {
-                const photoEl = document.createElement('div');
-                photoEl.className = 'memory-photo';
-                photoEl.style.left = memory.x + 'px';
-                photoEl.style.top = memory.y + 'px';
-                photoEl.style.width = (memory.width || 260) + 'px';
-                photoEl.style.transform = `rotate(${memory.rotation}deg)`;
-                photoEl.style.zIndex = 10 + index;
-                photoEl.dataset.index = index;
-                photoEl.setAttribute('role', 'button');
-                photoEl.setAttribute('aria-label', `${memory.title} — ${memory.date}`);
-
-                const inner = document.createElement('div');
-                inner.className = 'memory-photo-inner';
-                inner.style.transform = `rotate(${memory.rotation}deg)`;
-
-                const img = document.createElement('img');
-                img.src = memory.image;
-                img.alt = memory.title;
-                img.loading = 'lazy';
-                img.draggable = false;
-                img.addEventListener('error', () => {
-                    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="100%" height="100%" fill="#e8ddd5"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="serif" font-size="20" fill="#a89090">📷 Kỷ niệm</text></svg>'
-                    );
+                card.addEventListener('pointerdown', (e) => e.stopPropagation());
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openPhotoModal(item);
                 });
 
-                const caption = document.createElement('div');
-                caption.className = 'memory-photo-caption';
-                caption.textContent = memory.title;
-
-                const date = document.createElement('div');
-                date.className = 'memory-photo-date';
-                date.textContent = memory.date;
-
-                inner.appendChild(img);
-                inner.appendChild(caption);
-                inner.appendChild(date);
-                photoEl.appendChild(inner);
-
-                photoEl.addEventListener('click', () => {
-                    openLightbox(memory);
-                });
-
-                photoEl.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    openLightbox(memory);
-                });
-
-                photosContainer.appendChild(photoEl);
+                photosLayer.appendChild(card);
             });
         }
 
-        function openLightbox(memory) {
-            lightboxImg.src = memory.image;
-            lightboxImg.onerror = () => {
-                lightboxImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="100%" height="100%" fill="#e8ddd5"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="serif" font-size="20" fill="#a89090">📷</text></svg>'
-                );
-            };
-            lightboxTitle.textContent = memory.title;
-            lightboxDesc.textContent = memory.description || '';
-            lightboxDate.textContent = memory.date || '';
-            photoLightbox.classList.add('active');
-            playPaperSound();
+        function initMemorySpace() {
+            memorySpace.classList.add('active');
+            renderPolaroids();
+
+            // Center initial view
+            const centerX = -(1800 * 0.8 - window.innerWidth / 2);
+            const centerY = -(1400 * 0.8 - window.innerHeight / 2);
+            camera.x = camera.targetX = centerX;
+            camera.y = camera.targetY = centerY;
+
+            requestAnimationFrame(updateCameraLoop);
         }
 
-        function closeLightbox() {
-            photoLightbox.classList.remove('active');
-        }
+        /* Direct Mouse Wheel Zoom Centered on Cursor */
+        memorySpace.addEventListener('wheel', (e) => {
+            e.preventDefault(); // Stop native browser scroll/zoom
 
-        lightboxClose.addEventListener('click', closeLightbox);
-        photoLightbox.addEventListener('click', (e) => {
-            if (e.target === photoLightbox) closeLightbox();
-        });
+            const zoomFactor = Math.exp(-e.deltaY * CONFIG.CAMERA.zoomSpeed);
+            const newTargetZoom = Math.min(
+                CONFIG.CAMERA.maxZoom,
+                Math.max(CONFIG.CAMERA.minZoom, camera.targetZoom * zoomFactor)
+            );
 
-        /* ================================
-           LETTER NOTIFICATION
-        ================================ */
-        function showLetterTooltip() {
-            letterTooltip.classList.add('show');
-            if (tooltipTimeout) clearTimeout(tooltipTimeout);
-            tooltipTimeout = setTimeout(() => {
-                letterTooltip.classList.remove('show');
-            }, 4000);
-        }
+            if (newTargetZoom === camera.targetZoom) return;
 
-        letterNotification.addEventListener('click', () => {
-            if (isLetterOpened) {
-                openLetterModal();
-                return;
-            }
-            openEnvelope();
-        });
+            // Cursor position relative to viewport
+            const cursorX = e.clientX;
+            const cursorY = e.clientY;
 
-        letterNotification.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                if (isLetterOpened) {
-                    openLetterModal();
-                } else {
-                    openEnvelope();
-                }
-            }
-        });
+            // Calculate world offset before zoom to anchor cursor
+            const worldX = (cursorX - camera.targetX) / camera.targetZoom;
+            const worldY = (cursorY - camera.targetY) / camera.targetZoom;
 
-        function openEnvelope() {
-            isLetterOpened = true;
-            letterNotification.classList.add('opened');
-            letterTooltip.classList.remove('show');
-            if (tooltipTimeout) clearTimeout(tooltipTimeout);
-            playEnvelopeSound();
-            setTimeout(() => {
-                openLetterModal();
-            }, 700);
-        }
-
-        function openLetterModal() {
-            letterTitle.textContent = LETTER_DATA.title;
-            letterContent.textContent = LETTER_DATA.content;
-            letterSignature.textContent = LETTER_DATA.signature;
-            letterModal.classList.add('active');
-            playPaperSound();
-        }
-
-        function closeLetterModal() {
-            letterModal.classList.remove('active');
-        }
-
-        letterGiftBtn.addEventListener('click', () => {
-            letterModal.classList.remove('active');
-            setTimeout(() => {
-                openGiftModal();
-            }, 500);
-        });
-
-        letterModal.addEventListener('click', (e) => {
-            if (e.target === letterModal) closeLetterModal();
-        });
-
-        /* ================================
-           GIFT BOX
-        ================================ */
-        function openGiftModal() {
-            giftModal.classList.add('active');
-            giftBox.classList.remove('animating', 'paper-out');
-            giftBoxContainer.style.pointerEvents = 'auto';
-            playGiftSound();
-        }
-
-        function closeGiftModal() {
-            giftModal.classList.remove('active');
-        }
-
-        giftBoxContainer.addEventListener('click', () => {
-            if (isGiftOpened) return;
-            isGiftOpened = true;
-            giftBox.classList.add('animating');
-            playGiftSound();
-            setTimeout(() => {
-                giftBox.classList.add('paper-out');
-                playSparkleSound();
-                createGiftParticles();
-                setTimeout(() => {
-                    showFinalScreen();
-                }, 1000);
-            }, 700);
-        });
-
-        giftBoxContainer.addEventListener('keydown', (e) => {
-            if ((e.key === 'Enter' || e.key === ' ') && !isGiftOpened) {
-                e.preventDefault();
-                giftBoxContainer.click();
-            }
-        });
-
-        function createGiftParticles() {
-            const container = giftBoxContainer;
-            const colors = ['#f0d5d5', '#e8c8c8', '#f5e0e0', '#d4a860', '#faf0e8', '#c99898'];
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'gift-particle';
-                const size = 4 + Math.random() * 8;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.left = '50%';
-                particle.style.top = '40%';
-                particle.style.setProperty('--px', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.setProperty('--py', (-60 - Math.random() * 150) + 'px');
-                particle.style.animationDelay = (Math.random() * 0.3) + 's';
-                particle.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
-                container.appendChild(particle);
-                setTimeout(() => {
-                    if (particle.parentNode) particle.remove();
-                }, 2000);
-            }
-        }
-
-        giftModal.addEventListener('click', (e) => {
-            if (e.target === giftModal && !isGiftOpened) {
-                closeGiftModal();
-            }
-        });
-
-        /* ================================
-           FINAL SCREEN
-        ================================ */
-        function showFinalScreen() {
-            giftModal.classList.remove('active');
-            finalScreen.classList.add('active');
-            playSparkleSound();
-        }
-
-        function closeFinalScreen() {
-            finalScreen.classList.remove('active');
-        }
-
-        finalBtn.addEventListener('click', () => {
-            finalScreen.classList.remove('active');
-            isGiftOpened = false;
-            giftBox.classList.remove('animating', 'paper-out');
-            resetCamera();
-        });
-
-        /* ================================
-           DUST PARTICLES
-        ================================ */
-        function createDustParticles() {
-            for (let i = 0; i < 30; i++) {
-                const dust = document.createElement('div');
-                dust.className = 'world-dust-particle';
-                dust.style.left = Math.random() * CAMERA_CONFIG.worldWidth + 'px';
-                dust.style.top = Math.random() * CAMERA_CONFIG.worldHeight + 'px';
-                dust.style.animationDelay = (Math.random() * 18) + 's';
-                dust.style.animationDuration = (12 + Math.random() * 15) + 's';
-                dust.style.width = (2 + Math.random() * 3) + 'px';
-                dust.style.height = dust.style.width;
-                dustContainer.appendChild(dust);
-            }
-        }
-
-        /* ================================
-           INITIALIZATION
-        ================================ */
-        function init() {
-            createMemoryPhotos();
-            createDustParticles();
-            updatePasswordDots();
-            calculateCameraBounds();
-            worldContainer.style.transform = 'translate3d(0, 0, 0) scale(1)';
-            memorySpace.classList.add('hidden');
-            passwordScreen.classList.remove('hidden');
-            // Set initial camera position to center of world
-            const vp = getViewportSize();
-            camera.x = camera.targetX = (vp.width - CAMERA_CONFIG.worldWidth) / 2;
-            camera.y = camera.targetY = (vp.height - CAMERA_CONFIG.worldHeight) / 2;
-            camera.zoom = camera.targetZoom = Math.max(CAMERA_CONFIG.minZoom,
-                Math.min(CAMERA_CONFIG.maxZoom, Math.min(vp.width / CAMERA_CONFIG.worldWidth, vp.height / CAMERA_CONFIG
-                    .worldHeight) * 1.2));
-            applyCameraTransform(true);
-        }
-
-        window.addEventListener('resize', () => {
-            calculateCameraBounds();
-            if (!isUnlocked) {
-                const vp = getViewportSize();
-                camera.x = camera.targetX = (vp.width - CAMERA_CONFIG.worldWidth) / 2;
-                camera.y = camera.targetY = (vp.height - CAMERA_CONFIG.worldHeight) / 2;
-                camera.zoom = camera.targetZoom = Math.max(CAMERA_CONFIG.minZoom,
-                    Math.min(CAMERA_CONFIG.maxZoom, Math.min(vp.width / CAMERA_CONFIG.worldWidth, vp.height / CAMERA_CONFIG
-                        .worldHeight) * 1.2));
-                applyCameraTransform(true);
-            }
-        });
-
-        // Prevent default touch behaviors on the body
-        document.addEventListener('touchmove', (e) => {
-            if (e.target.closest('#memory-space') || e.target.closest('#password-screen')) {
-                e.preventDefault();
-            }
+            camera.targetZoom = newTargetZoom;
+            camera.targetX = cursorX - worldX * newTargetZoom;
+            camera.targetY = cursorY - worldY * newTargetZoom;
         }, { passive: false });
 
-        // First interaction to unlock audio
-        document.addEventListener('click', () => {
-            initAudio();
-            if (isUnlocked && !isMusicPlaying) {
-                playBackgroundMusic();
+        /* Pointer / Touch Event Listeners for Pan & Pinch */
+        memorySpace.addEventListener('pointerdown', (e) => {
+            activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            
+            if (activePointers.size === 1) {
+                isDragging = true;
+                dragStart = { x: e.clientX - camera.targetX, y: e.clientY - camera.targetY };
+            } else if (activePointers.size === 2) {
+                isDragging = false;
+                const pts = Array.from(activePointers.values());
+                initialPinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+                initialPinchZoom = camera.targetZoom;
             }
-        }, { once: true });
+        });
 
-        init();
+        window.addEventListener('pointermove', (e) => {
+            if (!activePointers.has(e.pointerId)) return;
+            activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-        console.log('🎂 Birthday Memory Space loaded!');
-        console.log('🔑 Password:', PASSWORD);
-        console.log('📷 Memories:', MEMORIES.length, 'photos');
+            if (isDragging && activePointers.size === 1) {
+                camera.targetX = e.clientX - dragStart.x;
+                camera.targetY = e.clientY - dragStart.y;
+            } else if (activePointers.size === 2 && initialPinchDist) {
+                const pts = Array.from(activePointers.values());
+                const currentDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+                const midX = (pts[0].x + pts[1].x) / 2;
+                const midY = (pts[0].y + pts[1].y) / 2;
+
+                const zoomRatio = currentDist / initialPinchDist;
+                const newZoom = Math.min(
+                    CONFIG.CAMERA.maxZoom,
+                    Math.max(CONFIG.CAMERA.minZoom, initialPinchZoom * zoomRatio)
+                );
+
+                const worldX = (midX - camera.targetX) / camera.targetZoom;
+                const worldY = (midY - camera.targetY) / camera.targetZoom;
+
+                camera.targetZoom = newZoom;
+                camera.targetX = midX - worldX * newZoom;
+                camera.targetY = midY - worldY * newZoom;
+            }
+        });
+
+        function handlePointerEnd(e) {
+            activePointers.delete(e.pointerId);
+            if (activePointers.size < 2) initialPinchDist = null;
+            if (activePointers.size === 1) {
+                const pt = Array.from(activePointers.values())[0];
+                isDragging = true;
+                dragStart = { x: pt.x - camera.targetX, y: pt.y - camera.targetY };
+            } else {
+                isDragging = false;
+            }
+        }
+
+        window.addEventListener('pointerup', handlePointerEnd);
+        window.addEventListener('pointercancel', handlePointerEnd);
+
+        /* Smooth Interpolation Rendering Frame */
+        function updateCameraLoop() {
+            // Easing / Spring interpolation
+            camera.zoom += (camera.targetZoom - camera.zoom) * CONFIG.CAMERA.friction;
+            camera.x += (camera.targetX - camera.x) * CONFIG.CAMERA.friction;
+            camera.y += (camera.targetY - camera.y) * CONFIG.CAMERA.friction;
+
+            // Apply transform to main world
+            world.style.transform = `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.zoom})`;
+
+            // Parallax subtle offset for pink background blobs
+            if (parallaxLayer) {
+                parallaxLayer.style.transform = `translate3d(${-camera.x * 0.15}px, ${-camera.y * 0.15}px, 0)`;
+            }
+
+            requestAnimationFrame(updateCameraLoop);
+        }
+
+        /* Modal Image Zoom */
+        const photoModal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalCaption = document.getElementById('modal-caption');
+
+        function openPhotoModal(item) {
+            sound.playClick();
+            modalImg.src = item.image;
+            modalCaption.textContent = item.description;
+            photoModal.classList.add('active');
+        }
+
+        photoModal.addEventListener('click', () => {
+            photoModal.classList.remove('active');
+        });
+
+        /* ==========================================
+           LETTER & ENVELOPE MODAL LOGIC
+           ========================================== */
+        const letterBtn = document.getElementById('letter-btn');
+        const letterModal = document.getElementById('letter-modal');
+        const envelope = document.getElementById('envelope');
+        const fullPaper = document.getElementById('full-paper');
+
+        document.getElementById('paper-title').textContent = CONFIG.LETTER.title;
+        document.getElementById('paper-body').textContent = CONFIG.LETTER.content;
+        document.getElementById('paper-signature').textContent = CONFIG.LETTER.signature;
+
+        letterBtn.addEventListener('click', () => {
+            sound.playClick();
+            letterModal.classList.add('active');
+        });
+
+        envelope.addEventListener('click', () => {
+            sound.playClick();
+            envelope.classList.add('open');
+            setTimeout(() => { envelope.classList.add('opening'); }, 600);
+            setTimeout(() => { fullPaper.classList.add('active'); }, 1000);
+        });
+
+        /* ==========================================
+           GIFT BOX LOGIC
+           ========================================== */
+        const btnToGift = document.getElementById('btn-to-gift');
+        const giftModal = document.getElementById('gift-modal');
+        const giftBox = document.getElementById('gift-box');
+        const giftResult = document.getElementById('gift-result');
+        const giftHint = document.getElementById('gift-hint');
+
+        document.getElementById('gift-title').textContent = CONFIG.GIFT.title;
+        document.getElementById('gift-body').textContent = CONFIG.GIFT.content;
+
+        btnToGift.addEventListener('click', () => {
+            sound.playClick();
+            letterModal.classList.remove('active');
+            giftModal.classList.add('active');
+        });
+
+        giftBox.addEventListener('click', () => {
+            if (giftBox.classList.contains('open')) return;
+            sound.playSuccess();
+            giftBox.classList.add('open');
+            giftHint.style.opacity = '0';
+
+            setTimeout(() => { giftResult.classList.add('active'); }, 800);
+        });
+
+        document.getElementById('btn-restart').addEventListener('click', () => {
+            sound.playClick();
+            giftModal.classList.remove('active');
+            giftResult.classList.remove('active');
+            giftBox.classList.remove('open');
+            fullPaper.classList.remove('active');
+            envelope.classList.remove('open', 'opening');
+            giftHint.style.opacity = '1';
+        });
     </script>
 </body>
 </html>
