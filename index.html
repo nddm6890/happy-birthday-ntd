@@ -450,22 +450,9 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
-
-	    .drag-hint {
-      	    top: 16px;
-       		left: 16px;
-        /* Giới hạn chiều rộng tối đa để không đè lên nút loa bên phải */
-            max-width: calc(100% - 80px); 
-            padding: 6px 12px;
-            font-size: 0.7rem;
-            border-radius: 14px;
-        
-        /* Căn chỉnh chữ gọn gàng */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  	     }
+		.drag-hint .hint-mobile {
+		    display: none;
+		}
 
         /* Polaroid Zoom Modal */
         .modal-overlay {
@@ -880,6 +867,8 @@
 
         /* Responsive Adjustments */
         @media (max-width: 600px) {
+			.drag-hint .hint-pc {display: none;}
+		    .drag-hint .hint-mobile {display: inline;}
             .polaroid { width: 190px; padding: 8px 8px 14px 8px; }
             .polaroid-img-wrapper { height: 170px; }
             .polaroid-title { font-size: 1.1rem; }
@@ -957,7 +946,10 @@
         </div>
 
         <!-- Fixed Overlay UI -->
-        <div class="drag-hint">✨ Cuộn chuột để Zoom • Kéo để Di chuyển</div>
+        <div class="drag-hint">
+		    <span class="hint-pc">✨ Cuộn chuột để Zoom • Kéo để Di chuyển</span>
+		    <span class="hint-mobile">✨ Chạm & Vuốt để di chuyển</span>
+		</div>
         
         <div class="floating-letter-btn" id="letter-btn">
             <div class="icon-container">
