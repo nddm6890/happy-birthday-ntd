@@ -450,9 +450,22 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
-		.drag-hint .hint-mobile {
-		    display: none;
-		}
+		.drag-hint {
+		    position: fixed;
+		    top: 36px; /* Chuyển từ bottom sang top */
+		    left: 36px;
+			background: rgba(255, 255, 255, 0.75);
+		    backdrop-filter: blur(10px);
+		    padding: 10px 20px;
+			border-radius: 20px;
+			font-size: 0.8rem;
+		    color: var(--color-secondary);
+		    pointer-events: none;
+		    z-index: 50; 
+		    border: 1px solid rgba(242, 215, 217, 0.6);
+		} 
+
+
 
         /* Polaroid Zoom Modal */
         .modal-overlay {
@@ -867,8 +880,6 @@
 
         /* Responsive Adjustments */
         @media (max-width: 600px) {
-			.drag-hint .hint-pc {display: none;}
-		    .drag-hint .hint-mobile {display: inline;}
             .polaroid { width: 190px; padding: 8px 8px 14px 8px; }
             .polaroid-img-wrapper { height: 170px; }
             .polaroid-title { font-size: 1.1rem; }
@@ -876,7 +887,7 @@
             .paper-title { font-size: 1.9rem; }
             .paper-body { font-size: 0.95rem; }
             .floating-letter-btn { bottom: 20px; right: 20px; padding: 10px 18px; }
-            .drag-hint { bottom: 20px; left: 20px; font-size: 0.75rem; }
+            .drag-hint { top: 20px; left: 20px; font-size: 0.75rem; }
             .envelope-3d-wrapper { width: 280px; height: 190px; }
             .envelope-flap-3d, .envelope-pocket-3d { border-left-width: 140px; border-right-width: 140px; }
             .paper-3d-slide { width: 252px; height: 168px; }
@@ -946,10 +957,7 @@
         </div>
 
         <!-- Fixed Overlay UI -->
-        <div class="drag-hint">
-		    <span class="hint-pc">✨ Cuộn chuột để Zoom • Kéo để Di chuyển</span>
-		    <span class="hint-mobile">✨ Chạm & Vuốt để di chuyển</span>
-		</div>
+        <div class="drag-hint">✨ Cuộn chuột để Zoom • Kéo để Di chuyển</div>
         
         <div class="floating-letter-btn" id="letter-btn">
             <div class="icon-container">
