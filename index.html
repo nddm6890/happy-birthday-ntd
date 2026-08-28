@@ -451,20 +451,21 @@
             50% { transform: translateY(-8px); }
         }
 
-        .drag-hint {
-  	  position: fixed;
-  	  top: 36px; /* Chuyển từ bottom sang top */
-  	  left: 36px;
-   	  background: rgba(255, 255, 255, 0.75);
-  	  backdrop-filter: blur(10px);
-  	  padding: 10px 20px;
-   	  border-radius: 20px;
-	  font-size: 0.8rem;
-  	  color: var(--color-secondary);
-  	  pointer-events: none;
-  	  z-index: 50;
-  	  border: 1px solid rgba(242, 215, 217, 0.6);
-	}
+	    .drag-hint {
+      	    top: 16px;
+       		left: 16px;
+        /* Giới hạn chiều rộng tối đa để không đè lên nút loa bên phải */
+            max-width: calc(100% - 80px); 
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            border-radius: 14px;
+        
+        /* Căn chỉnh chữ gọn gàng */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  	     }
 
         /* Polaroid Zoom Modal */
         .modal-overlay {
