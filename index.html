@@ -8,7 +8,6 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
@@ -1014,7 +1013,8 @@
             <button class="btn-restart" id="btn-restart">🔄 Xem lại kỷ niệm</button>
         </div>
     </div>
-
+    
+    <script src="config.js"></script>
     <!-- ==========================================
        JAVASCRIPT ENGINE & CAMERA LOGIC
        ========================================== -->
@@ -1023,7 +1023,7 @@
            CONFIG & DATA MANAGEMENT
            ========================================== */
         const CONFIG = {
-            PASSWORD: "1609",
+            PASSWORD: CONFIG_PRIVATE.PASSWORD,
             MUSIC_URL: "birthday.mp3",
             
             CAMERA: {
@@ -1100,7 +1100,7 @@ Chúc cậu có một sinh nhật thật bình yên, rạng rỡ và luôn tràn
 Món quà lớn nhất không nằm trong hộp quà này, mà chính là tình cảm và những kỷ niệm đẹp đẽ mà chúng ta đã cùng nhau tạo nên.
 
 Happy Birthday! 🎈✨`,
-                link: "https://gist.githubusercontent.com/nddm6890/ef371d94108f9ebaf54fb7fe8acdf58f/raw/270ea241ebb7667d18d0dbed254031b58f96db4c/gistfile1.txt"
+                link: CONFIG_PRIVATE.GIFT_LINK
             }
         };
 
